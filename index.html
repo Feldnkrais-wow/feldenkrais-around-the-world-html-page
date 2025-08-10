@@ -78,11 +78,34 @@
   }
 
   .map{ grid-row:2/3; grid-column:1/2; width:100%; height:100%; object-fit:contain; filter:contrast(110%) saturate(80%); opacity:.95; user-select:none; -webkit-user-drag:none; }
+
+  /* fade the gray map tint instead of toggling display */
   .map-tint{
     grid-row:2/3; grid-column:1/2;
     position:relative; width:100%; height:100%;
-    background:#b8bcc3; mix-blend-mode:lighten;
-    pointer-events:none; display:none;
+    background:#b8bcc3; mix-blend-mode:lighten; pointer-events:none;
+    opacity:0;                         /* dark = hidden */
+  }
+  html[data-theme="light"] .map-tint{ opacity:.9; }
+
+  /* smooth theme transitions when toggling */
+  @media (prefers-reduced-motion: no-preference){
+    html.theming body,
+    html.theming header,
+    html.theming .map-wrap,
+    html.theming .panel,
+    html.theming .item,
+    html.theming .country,
+    html.theming .org,
+    html.theming .hint,
+    html.theming .dot,
+    html.theming .pin,
+    html.theming .subtitle,
+    html.theming .map-tint{
+      transition: background-color .35s ease, color .35s ease,
+                  border-color .35s ease, box-shadow .35s ease,
+                  filter .35s ease, opacity .35s ease;
+    }
   }
 
   /* ---------- List panel ---------- */
@@ -169,7 +192,6 @@
   html[data-theme="light"] .panel{ border-top:1px solid #e5e8ee; }
   html[data-theme="light"] .item{ background:#fff; border:1px solid #e7eaf0; }
   html[data-theme="light"] .item:hover, html[data-theme="light"] .item:focus-visible{ background:#f3f5f7; border-color:#dde2ea; }
-  html[data-theme="light"] .map-tint{ display:block; }
 </style>
 </head>
 <body>
@@ -262,9 +284,13 @@ btn.addEventListener('click', () => {
   setTheme(root.getAttribute('data-theme') === 'light' ? 'dark' : 'light');
 });
 function setTheme(mode){
+  // add a short-lived class to enable smooth transitions only while toggling
+  root.classList.add('theming');
   root.setAttribute('data-theme', mode);
   localStorage.setItem('theme', mode);
   btn.setAttribute('aria-pressed', String(mode === 'light'));
+  clearTimeout(window._themeTO);
+  window._themeTO = setTimeout(()=>root.classList.remove('theming'), 400);
 }
 
 /* ---- map + pins ---- */
