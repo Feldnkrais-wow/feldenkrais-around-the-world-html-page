@@ -28,7 +28,7 @@
     margin:0;
     font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,sans-serif;
     color:var(--fg);
-    background:linear-gradient(180deg,#0a0a0b 0%, #0d0d10 100%);
+    background:linear-gradient(180deg,#161719 0%, #1c1d20 100%);
   }
 
   header{
@@ -53,7 +53,7 @@
   .map-wrap{
     position:relative; display:grid; grid-template-rows:auto 1fr;
     min-height:0; overflow:hidden;
-    background:radial-gradient(1000px 600px at 50% -200px, #15161b, #0b0b0c);
+     background:radial-gradient(1000px 600px at 50% -200px, #202124, #161719);
   }
 
   /* balanced heading */
@@ -70,7 +70,7 @@
     text-align:center;
     pointer-events:none;
   }
-  html[data-theme="dark"] .subtitle{ text-shadow:0 1px 3px rgba(0,0,0,.8), 0 0 5px rgba(0,0,0,.6); }
+  html[data-theme="dark"] .subtitle{ text-shadow:0 1px 3px rgba(0,0,0,.8), 0 0 5px rgba(0, 0, 0, 0.432); }
   html[data-theme="light"] .subtitle{ color:#000; text-shadow:none; }
 
   /* padded map cell so the world never hugs/crops the edges */
@@ -241,15 +241,15 @@
 <script>
 /* ---- data ---- */
 const places = [
-  {id:"AR",  name:"ARGENTINA",     lat:-60.0000, lon:-91.3816,  org:"Asociación Método Feldenkrais® Argentina", url:"http://www.feldenkrais.org.ar/"},
-  {id:"AU",  name:"AUSTRALIA",      lat:-63.2820, lon:120.1287,  org:"Australian Feldenkrais Guild Inc (AFG)",     url:"http://www.feldenkrais.org.au/"},
-  {id:"AT",  name:"AUSTRIA",        lat:47.6569,  lon:-14.6942,  org:"Feldenkrais Verband Österreich (FVO)",       url:"http://www.feldenkrais.at/"},
+  {id:"AR",  name:"ARGENTINA",     lat:-60.0000, lon:-91.3816,  org:"Asociación Método Feldenkrais® Argentina", url:"https://feldenkrais.org.ar/de-la-asociacion/"},
+  {id:"AU",  name:"AUSTRALIA",      lat:-63.2820, lon:120.1287,  org:"Australian Feldenkrais Guild Inc (AFG)",     url:"https://www.feldenkrais.org.au/classes"},
+  {id:"AT",  name:"AUSTRIA",        lat:47.6569,  lon:-14.6942,  org:"Feldenkrais Verband Österreich (FVO)",       url:"https://www.feldenkrais.at/aktionstage"},
   {id:"BE",  name:"BELGIUM",        lat:50.8503,  lon:-25.6483,  org:"The Feldenkrais Association of Belgium",     url:"http://www.feldenkraisbelgium.be/"},
   {id:"CL",  name:"CHILE",          lat:-58.0000, lon:-105.3816, org:"Asociacion Chilena de Instructores de Feldenkrais", url:"https://achifeldenkrais.wordpress.com/"},
-  {id:"CO",  name:"COLOMBIA",       lat:-7.0000,  lon:-114.3816, org:"ACOPMEF",                                     url:"http://www.feldenkraislatino.com"},
-  {id:"CZ",  name:"CZECH REPUBLIC", lat:50.9480,  lon:-16.5526,  org:"Spolek Feldenkraisovy metody v ČR",          url:"http://spolek-feldenkrais.cz"},
-  {id:"FI",  name:"FINLAND",        lat:63.9139,  lon:-8.0616,   org:"Suomen Feldenkraisyhdistys",                 url:"https://www.feldenkrais.fi/"},
-  {id:"FR",  name:"FRANCE",         lat:47.8566,  lon:-28.6478,  org:"Feldenkrais France",                          url:"http://www.feldenkrais-france.org/"},
+  {id:"CO",  name:"COLOMBIA",       lat:-7.0000,  lon:-114.3816, org:"ACOPMEF",                                     url:"https://www.feldenkraislatino.com/eventos/"},
+  {id:"CZ",  name:"CZECH REPUBLIC", lat:50.9480,  lon:-16.5526,  org:"Spolek Feldenkraisovy metody v ČR",          url:"https://spolek-feldenkrais.cz/vycviky-kurzy/"},
+  {id:"FI",  name:"FINLAND",        lat:63.9139,  lon:-8.0616,   org:"Suomen Feldenkraisyhdistys",                 url:"https://www.feldenkrais.fi/feldenkraismenetelma/"},
+  {id:"FR",  name:"FRANCE",         lat:47.8566,  lon:-28.6478,  org:"Feldenkrais France",                          url:"https://www.feldenkrais-france.org/evenements/jff"},
   {id:"DE",  name:"GERMANY",        lat:53.4480,  lon:-19.0526,  org:"FVD Feldenkrais-Verband Deutschland e.V.",    url:"http://www.feldenkrais.de/"},
   {id:"HK",  name:"HONG KONG / CHINA", lat:15.0330, lon:91.0000, org:"Greater China Feldenkrais Association",       url:"mailto:richard@bodyworksasia.cn"},
   {id:"IL",  name:"ISRAEL",         lat:28.7683,  lon:5.2137,   org:"Israeli Feldenkrais Qualified Practitioners Association", url:"http://www.feldenkrais-israel.org/"},
