@@ -70,19 +70,30 @@
     text-align:center;
     pointer-events:none;
   }
-  html[data-theme="dark"] .subtitle{
-    text-shadow:0 1px 3px rgba(0,0,0,.8), 0 0 5px rgba(0,0,0,.6);
-  }
-  html[data-theme="light"] .subtitle{
-    color:#000; text-shadow:none;
-  }
+  html[data-theme="dark"] .subtitle{ text-shadow:0 1px 3px rgba(0,0,0,.8), 0 0 5px rgba(0,0,0,.6); }
+  html[data-theme="light"] .subtitle{ color:#000; text-shadow:none; }
 
-  .map{ grid-row:2/3; grid-column:1/2; width:98%; height:100%; object-fit:contain; filter:contrast(110%) saturate(80%); opacity:.95; user-select:none; -webkit-user-drag:none; }
-
-  /* fade the gray map tint instead of toggling display */
-  .map-tint{
+  /* padded map cell so the world never hugs/crops the edges */
+  .map-pad{
     grid-row:2/3; grid-column:1/2;
-    position:relative; width:100%; height:100%;
+    position:relative;
+    padding-inline:clamp(.6rem, 2vw, 1.2rem); /* safe margin using rem */
+    height:100%;
+  }
+
+  .map{
+    display:block;             /* kill inline-gap that can cause 1px artifacts */
+    width:100%; height:100%;   /* fill the padded cell */
+    object-fit:contain;
+    filter:contrast(110%) saturate(80%);
+    opacity:.95;
+    user-select:none;
+    -webkit-user-drag:none;
+  }
+
+  /* gray map tint (light mode) */
+  .map-tint{
+    position:absolute; inset:0;
     background:#b8bcc3; mix-blend-mode:lighten; pointer-events:none;
     opacity:0;                         /* dark = hidden */
   }
@@ -213,9 +224,12 @@
   <main>
     <section class="map-wrap" id="mapWrap" aria-label="World map with interactive pins">
       <div class="subtitle">Find out about Feldenkrais events around the world</div>
-      <img class="map" id="worldMap" alt="Minimal world map"
-           src="https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution.svg" />
-      <div class="map-tint" aria-hidden="true"></div>
+
+      <div class="map-pad">
+        <img class="map" id="worldMap" alt="Minimal world map (no Antarctica)"
+             src="https://upload.wikimedia.org/wikipedia/commons/8/87/World_map_without_Antarctica.svg" />
+        <div class="map-tint" aria-hidden="true"></div>
+      </div>
     </section>
 
     <aside class="panel" aria-label="Organizations list">
@@ -227,36 +241,37 @@
 <script>
 /* ---- data ---- */
 const places = [
-  {id:"AR", name:"ARGENTINA", lat:-40.6037, lon:-65.3816, org:"Asociación Método Feldenkrais® Argentina", url:"http://www.feldenkrais.org.ar/"},
-  {id:"AU", name:"AUSTRALIA", lat:-45.2820, lon:143.1287, org:"Australian Feldenkrais Guild Inc (AFG)", url:"http://www.feldenkrais.org.au/"},
-  {id:"AT", name:"AUSTRIA", lat:35.0000, lon:6.0000, org:"Feldenkrais Verband Österreich (FVO)", url:"http://www.feldenkrais.at/"},
-  {id:"BE", name:"BELGIUM", lat:37.8503, lon:-4.3517, org:"The Feldenkrais Association of Belgium", url:"http://www.feldenkraisbelgium.be/"},
-  {id:"CL", name:"CHILE", lat:-38.4489, lon:-80.6693, org:"Asociacion Chilena de Instructores de Feldenkrais", url:"https://achifeldenkrais.wordpress.com/"},
-  {id:"CO", name:"COLOMBIA", lat:-3.2110, lon:-87.0721, org:"Asociacion Colombiana de Profesionales del Método Feldenkrais (ACOPMEF)", url:"http://www.feldenkraislatino.com"},
-  {id:"CZ", name:"CZECH REPUBLIC", lat:37.9, lon:6.4000, org:"Spolek Feldenkraisovy metody v ČR", url:"http://spolek-feldenkrais.cz"},
-  {id:"FI", name:"FINLAND", lat:49.9000, lon:14.000, org:"Suomen Feldenkraisyhdistys", url:"https://www.feldenkrais.fi/"},
-  {id:"FR", name:"FRANCE", lat:33.9566, lon:-5.7522, org:"Feldenkrais France", url:"http://www.feldenkrais-france.org/"},
-  {id:"DE", name:"GERMANY", lat:39.8503, lon:3.0000, org:"FVD Feldenkrais-Verband Deutschland e.V.", url:"http://www.feldenkrais.de/"},
-  {id:"HK", name:"HONG KONG / CHINA", lat:15.5000, lon:111.5580, org:"Greater China Feldenkrais Association", url:"mailto:richard@bodyworksasia.cn"},
-  {id:"IL", name:"ISRAEL", lat:20.5683, lon:27.2137, org:"Israeli Feldenkrais Qualified Practitioners Association", url:"http://www.feldenkrais-israel.org/"},
-  {id:"IT", name:"ITALY", lat:26.9028, lon:6.4964, org:"AIIMF", url:"http://www.feldenkrais.it/"},
-  {id:"MX", name:"MEXICO", lat:11.4326, lon:-113.1332, org:"AMMEF", url:"http://www.feldenkraismexico.org/"},
-  {id:"NL", name:"THE NETHERLANDS", lat:39.8503, lon:-1.3517, org:"Nederlandse Feldenkrais Vereniging", url:"http://www.feldenkrais.nl/"},
-  {id:"NZ", name:"NEW ZEALAND", lat:-58.2865, lon:164.2, org:"The New Zealand Feldenkrais Guild", url:"http://www.feldenkrais.org.nz/"},
-  {id:"NO", name:"NORWAY", lat:47.9139, lon:0.7522, org:"Norsk Forbund for Autoriserte Feldenkraispedagoger (NFAFP)", url:"http://www.feldenkraismetoden.no/"},
-  {id:"QC", name:"CANADA", lat:38.8139, lon:-71.2080, org:"Association Feldenkrais Québec", url:"http://www.feldenkraisqc.info/"},
-  {id:"RU", name:"RUSSIA", lat:43.7558, lon:28.0000, org:"Russian Feldenkrais Guild Association", url:"https://feldenkraisguild-russia.com"},
-  {id:"SI", name:"SLOVENIJA", lat:31.8, lon:6.0000, org:"Društvo učiteljev metode Feldenkrais", url:"https://www.feldenkrais.si/"},
-  {id:"ES", name:"SPAIN", lat:27.4168, lon:-11.7038, org:"Asociación Feldenkrais España", url:"http://www.asociacionfeldenkrais.es/"},
-  {id:"SE", name:"SWEDEN", lat:47.2000, lon:7.000, org:"Svenska Förbundet för Auktoriserade Feldenkraispedagoger (SFAF)", url:"http://www.feldenkraismetoden.org/"},
-  {id:"CH", name:"SWITZERLAND", lat:33.9566, lon:0.0000, org:"SFV Schweizerischer Feldenkrais Verband", url:"http://www.feldenkrais.ch/"},
-  {id:"TW", name:"TAIWAN", lat:16.0330, lon:117.5000, org:"Feldenkrais Guild Taiwan", url:"http://www.feldenkrais-guild.tw"},
-  {id:"UK", name:"UNITED KINGDOM", lat:40.5074, lon:-10.1278, org:"The Feldenkrais Guild U.K.", url:"http://www.feldenkrais.co.uk/"},
-  {id:"AUS", name:"AUSTRALASIA (AusTAB)", lat:-34.8688, lon:130.2093, org:"Australian Training and Accreditation Board", url:"https://www.feldenkrais-austab.org"},
-  {id:"EUR", name:"EUROPE (EuroTAB)", lat:36.1351, lon:11.5820, org:"European Training Accreditation Board", url:"http://www.eurotab.org/"},
-  {id:"NAM", name:"THE AMERICAS (NATAB)", lat:31.3601, lon:-105.0589, org:"North American Training Accreditation Board", url:"https://www.feldenkraisguild.com/page/north-american-training-accreditation-board"},
-  {id:"DTAB", name:"GERMANY (DTAB)", lat:37.1503, lon:1.5000, org:"Deutsches Trainings-Akkreditierungs-Board", url:"https://www.feldenkrais.de/feldenkrais-methode/feldenkrais-lernen/ausbildung/d-tab-stellt-sich-vor"}
+  {id:"AR",  name:"ARGENTINA",     lat:-60.0000, lon:-91.3816,  org:"Asociación Método Feldenkrais® Argentina", url:"http://www.feldenkrais.org.ar/"},
+  {id:"AU",  name:"AUSTRALIA",      lat:-63.2820, lon:120.1287,  org:"Australian Feldenkrais Guild Inc (AFG)",     url:"http://www.feldenkrais.org.au/"},
+  {id:"AT",  name:"AUSTRIA",        lat:47.6569,  lon:-14.6942,  org:"Feldenkrais Verband Österreich (FVO)",       url:"http://www.feldenkrais.at/"},
+  {id:"BE",  name:"BELGIUM",        lat:50.8503,  lon:-25.6483,  org:"The Feldenkrais Association of Belgium",     url:"http://www.feldenkraisbelgium.be/"},
+  {id:"CL",  name:"CHILE",          lat:-58.0000, lon:-105.3816, org:"Asociacion Chilena de Instructores de Feldenkrais", url:"https://achifeldenkrais.wordpress.com/"},
+  {id:"CO",  name:"COLOMBIA",       lat:-7.0000,  lon:-114.3816, org:"ACOPMEF",                                     url:"http://www.feldenkraislatino.com"},
+  {id:"CZ",  name:"CZECH REPUBLIC", lat:50.9480,  lon:-16.5526,  org:"Spolek Feldenkraisovy metody v ČR",          url:"http://spolek-feldenkrais.cz"},
+  {id:"FI",  name:"FINLAND",        lat:63.9139,  lon:-8.0616,   org:"Suomen Feldenkraisyhdistys",                 url:"https://www.feldenkrais.fi/"},
+  {id:"FR",  name:"FRANCE",         lat:47.8566,  lon:-28.6478,  org:"Feldenkrais France",                          url:"http://www.feldenkrais-france.org/"},
+  {id:"DE",  name:"GERMANY",        lat:53.4480,  lon:-19.0526,  org:"FVD Feldenkrais-Verband Deutschland e.V.",    url:"http://www.feldenkrais.de/"},
+  {id:"HK",  name:"HONG KONG / CHINA", lat:15.0330, lon:91.0000, org:"Greater China Feldenkrais Association",       url:"mailto:richard@bodyworksasia.cn"},
+  {id:"IL",  name:"ISRAEL",         lat:28.7683,  lon:5.2137,   org:"Israeli Feldenkrais Qualified Practitioners Association", url:"http://www.feldenkrais-israel.org/"},
+  {id:"IT",  name:"ITALY",          lat:39.9028,  lon:-17.5036,  org:"AIIMF",                                      url:"http://www.feldenkrais.it/"},
+  {id:"MX",  name:"MEXICO",         lat:12.4326,  lon:-141.1332, org:"AMMEF",                                      url:"http://www.feldenkraismexico.org/"},
+  {id:"NL",  name:"THE NETHERLANDS",lat:54.4074,  lon:-23.9278,  org:"Nederlandse Feldenkrais Vereniging",         url:"http://www.feldenkrais.nl/"},
+  {id:"NZ",  name:"NEW ZEALAND",    lat:-68.2820, lon:144.1287,  org:"The New Zealand Feldenkrais Guild",          url:"http://www.feldenkrais.org.nz/"},
+  {id:"NO",  name:"NORWAY",         lat:63.9139,  lon:-21.2478,  org:"NFAFP",                                      url:"http://www.feldenkraismetoden.no/"},
+  {id:"QC",  name:"QUEBEC (CANADA)",lat:48.8139,  lon:-99.2080,  org:"Association Feldenkrais Québec",             url:"http://www.feldenkraisqc.info/"},
+  {id:"RU",  name:"RUSSIA",         lat:57.7558,  lon:1.6173,    org:"Russian Feldenkrais Guild Association",       url:"https://feldenkraisguild-russia.com"},
+  {id:"SI",  name:"SLOVENIJA",      lat:46.0569,  lon:-17.4942,  org:"Društvo učiteljev metode Feldenkrais",       url:"https://www.feldenkrais.si/"},
+  {id:"ES",  name:"SPAIN",          lat:38.4168,  lon:-35.7038,  org:"Asociación Feldenkrais España",              url:"http://www.asociacionfeldenkrais.es/"},
+  {id:"SE",  name:"SWEDEN",         lat:61.9139,  lon:-15.2478,  org:"SFAF",                                       url:"http://www.feldenkraismetoden.org/"},
+  {id:"CH",  name:"SWITZERLAND",    lat:46.5566,  lon:-23.6478,  org:"SFV Schweizerischer Feldenkrais Verband",    url:"http://www.feldenkrais.ch/"},
+  {id:"TW",  name:"TAIWAN",         lat:16.0330,  lon:97.5654,   org:"Feldenkrais Guild Taiwan",                   url:"http://www.feldenkrais-guild.tw"},
+  {id:"UK",  name:"UNITED KINGDOM", lat:53.5074,  lon:-32.1278,  org:"The Feldenkrais Guild U.K.",                 url:"http://www.feldenkrais.co.uk/"},
+  {id:"AUS", name:"AUSTRALASIA (AusTAB)", lat:-46.2820, lon:112.1287, org:"Australian Training and Accreditation Board", url:"https://www.feldenkrais-austab.org"},
+  {id:"EUR", name:"EUROPE (EuroTAB)",     lat:43.8566, lon:-30.6478, org:"European Training Accreditation Board",  url:"http://www.eurotab.org/"},
+  {id:"NAM", name:"THE AMERICAS (NATAB)", lat:36.5000, lon:-135.3500, org:"North American Training Accreditation Board", url:"https://www.feldenkraisguild.com/page/north-american-training-accreditation-board"},
+  {id:"DTAB",name:"GERMANY (DTAB)",        lat:50.8503,  lon:-21.6483, org:"Deutsches Trainings-Akkreditierungs-Board", url:"https://www.feldenkrais.de/feldenkrais-methode/feldenkrais-lernen/ausbildung/d-tab-stellt-sich-vor"}
 ];
+
 
 /* ---- list ---- */
 const listEl = document.getElementById('list');
@@ -284,7 +299,6 @@ btn.addEventListener('click', () => {
   setTheme(root.getAttribute('data-theme') === 'light' ? 'dark' : 'light');
 });
 function setTheme(mode){
-  // add a short-lived class to enable smooth transitions only while toggling
   root.classList.add('theming');
   root.setAttribute('data-theme', mode);
   localStorage.setItem('theme', mode);
@@ -369,3 +383,4 @@ addEventListener('resize', layoutPins);
 </script>
 </body>
 </html>
+
