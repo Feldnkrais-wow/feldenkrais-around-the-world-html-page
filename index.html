@@ -141,6 +141,8 @@
   .country{display:block; line-height:1.2; font-weight:700; color:var(--fg)}
   .org{display:block; line-height:1.3; color:var(--muted); font-size:12px}
 
+  /* separator under Belgium */
+  .sep{grid-column:1/-1; border-bottom:1px solid #333; margin:6px 0;}
   /* ---------- Pins ---------- */
   .pin{
     position:absolute; width:6px; height:6px; border-radius:50%; background:var(--pin);
@@ -203,6 +205,7 @@
   html[data-theme="light"] .panel{ border-top:1px solid #e5e8ee; }
   html[data-theme="light"] .item{ background:#fff; border:1px solid #e7eaf0; }
   html[data-theme="light"] .item:hover, html[data-theme="light"] .item:focus-visible{ background:#f3f5f7; border-color:#dde2ea; }
+  html[data-theme="light"] .sep{ border-bottom:1px solid #e5e8ee; }
 </style>
 </head>
 <body>
@@ -255,7 +258,7 @@ const places = [
   {id:"IL",  name:"ISRAEL",         lat:28.7683,  lon:5.2137,   org:"Israeli Feldenkrais Qualified Practitioners Association", url:"http://www.feldenkrais-israel.org/"},
   {id:"IT",  name:"ITALY",          lat:39.9028,  lon:-17.5036,  org:"AIIMF",                                      url:"http://www.feldenkrais.it/"},
   {id:"MX",  name:"MEXICO",         lat:12.4326,  lon:-141.1332, org:"AMMEF",                                      url:"http://www.feldenkraismexico.org/"},
-  {id:"NL",  name:"THE NETHERLANDS",lat:54.4074,  lon:-23.9278,  org:"Nederlandse Feldenkrais Vereniging",         url:"http://www.feldenkrais.nl/"},
+  {id:"NL",  name:"NETHERLANDS",lat:54.4074,  lon:-23.9278,  org:"Nederlandse Feldenkrais Vereniging",         url:"http://www.feldenkrais.nl/"},
   {id:"NZ",  name:"NEW ZEALAND",    lat:-68.2820, lon:144.1287,  org:"The New Zealand Feldenkrais Guild",          url:"http://www.feldenkrais.org.nz/"},
   {id:"NO",  name:"NORWAY",         lat:63.9139,  lon:-21.2478,  org:"NFAFP",                                      url:"http://www.feldenkraismetoden.no/"},
   {id:"QC",  name:"QUEBEC (CANADA)",lat:48.8139,  lon:-99.2080,  org:"Association Feldenkrais Québec",             url:"http://www.feldenkraisqc.info/"},
@@ -272,10 +275,22 @@ const places = [
   {id:"DTAB",name:"GERMANY (DTAB)",        lat:50.8503,  lon:-21.6483, org:"Deutsches Trainings-Akkreditierungs-Board", url:"https://www.feldenkrais.de/feldenkrais-methode/feldenkrais-lernen/ausbildung/d-tab-stellt-sich-vor"}
 ];
 
-
-/* ---- list ---- */
+/* ---- list (Belgium first + separator) ---- */
 const listEl = document.getElementById('list');
-for (const p of places){
+(function renderList(){
+  const belgium = places.find(p => p.id === "BE");
+  if (belgium){
+    addPlaceItem(belgium);
+    const sep = document.createElement('div');
+    sep.className = 'sep';
+    listEl.appendChild(sep);
+  }
+  for (const p of places){
+    if (p.id === "BE") continue;
+    addPlaceItem(p);
+  }
+})();
+function addPlaceItem(p){
   const el = document.createElement('button');
   el.className = 'item'; el.dataset.id = p.id;
   el.innerHTML = `<span class="dot"></span><div><div class="country">${p.name}</div><div class="org">${p.org}</div></div>`;
@@ -383,4 +398,3 @@ addEventListener('resize', layoutPins);
 </script>
 </body>
 </html>
-
