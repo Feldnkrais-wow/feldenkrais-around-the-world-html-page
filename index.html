@@ -6,7 +6,6 @@
 <title>Feldenkrais Around The World</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 <style>
-  /* ---------- Theme tokens (dark = default) ---------- */
   :root{
     --fg:#e7e7e7;
     --muted:#a0a0a0;
@@ -19,9 +18,15 @@
     --pin-ring:var(--bullet-ring);
 
     --bar:#000;
+    --card:#0f0f12;
+    --card-border:#1b1b1b;
+    --card-border-hover:#262626;
+
+    --sub-bg:rgba(0,209,178,.08);
+    --sub-border:rgba(0,209,178,.35);
+    --sub-fg:#fff;                /* Brussels text color in dark mode */
   }
 
-  /* ---------- Base ---------- */
   *{box-sizing:border-box}
   html,body{height:100%}
   body{
@@ -49,14 +54,11 @@
 
   main{height:calc(100% - 56px); display:grid; grid-template-rows:50vh 1fr;}
 
-  /* ---------- Map area ---------- */
   .map-wrap{
     position:relative; display:grid; grid-template-rows:auto 1fr;
     min-height:0; overflow:hidden;
-     background:radial-gradient(1000px 600px at 50% -200px, #202124, #161719);
+    background:radial-gradient(1000px 600px at 50% -200px, #202124, #161719);
   }
-
-  /* balanced heading */
   .subtitle{
     max-width:min(820px,90%);
     margin:10px auto 6px;
@@ -70,67 +72,47 @@
     text-align:center;
     pointer-events:none;
   }
-  html[data-theme="dark"] .subtitle{ text-shadow:0 1px 3px rgba(0,0,0,.8), 0 0 5px rgba(0, 0, 0, 0.432); }
+  html[data-theme="dark"] .subtitle{ text-shadow:0 1px 3px rgba(0,0,0,.8), 0 0 5px rgba(0,0,0,.43); }
   html[data-theme="light"] .subtitle{ color:#000; text-shadow:none; }
 
-  /* padded map cell so the world never hugs/crops the edges */
-  .map-pad{
-    grid-row:2/3; grid-column:1/2;
-    position:relative;
-    padding-inline:clamp(.6rem, 2vw, 1.2rem); /* safe margin using rem */
-    height:100%;
-  }
-
+  .map-pad{ grid-row:2/3; grid-column:1/2; position:relative; padding-inline:clamp(.6rem, 2vw, 1.2rem); height:100%; }
   .map{
-    display:block;             /* kill inline-gap that can cause 1px artifacts */
-    width:100%; height:100%;   /* fill the padded cell */
-    object-fit:contain;
-    filter:contrast(110%) saturate(80%);
-    opacity:.95;
-    user-select:none;
-    -webkit-user-drag:none;
+    display:block; width:100%; height:100%;
+    object-fit:contain; filter:contrast(110%) saturate(80%); opacity:.95;
+    user-select:none; -webkit-user-drag:none;
   }
-
-  /* gray map tint (light mode) */
-  .map-tint{
-    position:absolute; inset:0;
-    background:#b8bcc3; mix-blend-mode:lighten; pointer-events:none;
-    opacity:0;                         /* dark = hidden */
-  }
+  .map-tint{ position:absolute; inset:0; background:#b8bcc3; mix-blend-mode:lighten; pointer-events:none; opacity:0; }
   html[data-theme="light"] .map-tint{ opacity:.9; }
 
-  /* smooth theme transitions when toggling */
   @media (prefers-reduced-motion: no-preference){
-    html.theming body,
-    html.theming header,
-    html.theming .map-wrap,
-    html.theming .panel,
-    html.theming .item,
-    html.theming .country,
-    html.theming .org,
-    html.theming .hint,
-    html.theming .dot,
-    html.theming .pin,
-    html.theming .subtitle,
-    html.theming .map-tint{
-      transition: background-color .35s ease, color .35s ease,
-                  border-color .35s ease, box-shadow .35s ease,
-                  filter .35s ease, opacity .35s ease;
+    html.theming body, html.theming header, html.theming .map-wrap, html.theming .panel,
+    html.theming .item, html.theming .country, html.theming .org, html.theming .hint,
+    html.theming .dot, html.theming .pin, html.theming .subtitle, html.theming .map-tint,
+    html.theming .subbox{
+      transition: background-color .35s ease, color .35s ease, border-color .35s ease,
+                  box-shadow .35s ease, filter .35s ease, opacity .35s ease;
     }
   }
 
-  /* ---------- List panel ---------- */
   .panel{min-height:0; overflow:auto; border-top:1px solid #151515; padding:8px 10px 18px 10px;}
   .hint{color:var(--muted); font-size:12px; margin:6px 2px 10px;}
-  .list{display:grid; grid-template-columns:1fr 1fr; gap:8px;}
+  .list{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    align-items:start;
+  }
   @media (max-width:720px){.list{grid-template-columns:1fr}}
 
   .item{
     display:flex; align-items:flex-start; gap:10px;
-    padding:10px 12px; border:1px solid #1b1b1b; background:#0f0f12; border-radius:10px;
+    padding:12px; border:1px solid var(--card-border); background:var(--card); border-radius:12px;
     cursor:pointer; transition:transform .15s, border-color .15s, background .15s; outline:none; text-align:left !important;
+    box-shadow:0 1px 0 rgba(255,255,255,.02), 0 10px 22px rgba(0,0,0,.25);
+    min-height:88px;
   }
-  .item:hover,.item:focus-visible{transform:translateY(-1px); border-color:#262626; background:#111118;}
+  .item:hover,.item:focus-visible{transform:translateY(-1px); border-color:var(--card-border-hover); background:#111118;}
+  .item .content{flex:1}
 
   .dot{
     width:9px; height:9px; border-radius:50%;
@@ -141,9 +123,24 @@
   .country{display:block; line-height:1.2; font-weight:700; color:var(--fg)}
   .org{display:block; line-height:1.3; color:var(--muted); font-size:12px}
 
-  /* separator under Belgium */
-  .sep{grid-column:1/-1; border-bottom:1px solid #333; margin:6px 0;}
-  /* ---------- Pins ---------- */
+  /* Brussels pill with left star; text color switches per theme */
+  .subbox{
+    display:inline-flex; align-items:center; gap:6px;
+    margin-top:6px;
+    padding:6px 12px;
+    border:1px dashed var(--sub-border);
+    background:var(--sub-bg);
+    border-radius:999px;
+    font-size:13px;
+    font-weight:700;
+    color:var(--sub-fg);          /* white (dark) / black (light) */
+    cursor:pointer;
+    text-decoration:none;
+  }
+  .subbox svg{width:14px;height:14px; flex:0 0 14px; fill:currentColor; opacity:.95}
+
+.sep{grid-column:1/-1; border-bottom:1px solid #3f3f3f; margin:6px 0;}
+html[data-theme="light"] .sep{ border-bottom:1px solid #cfd5df; }
   .pin{
     position:absolute; width:6px; height:6px; border-radius:50%; background:var(--pin);
     box-shadow:0 0 0 2px var(--pin-ring), 0 2px 6px rgba(0,0,0,.45), inset 0 -1px 0 rgba(0,0,0,.25);
@@ -170,7 +167,6 @@
   }
   .pin a{position:absolute; inset:-8px; text-indent:-9999px;}
 
-  /* ---------- Layout tweaks ---------- */
   @media (min-width:980px) and (orientation:landscape){
     main{grid-template-rows:unset; grid-template-columns:minmax(0,1fr) 380px;}
     .panel{border-top:none; border-left:1px solid #151515;}
@@ -186,19 +182,14 @@
     .pin a{ inset:-5px; }
   }
 
-  /* ---------- Light theme overrides ---------- */
+  /* Light mode overrides (Brussels text becomes black) */
   html[data-theme="light"]{
-    --fg:#000;
-    --muted:#333;
-    --accent:#00a898;
-
-    --bullet:#006eff;
-    --bullet-ring:rgba(0,110,255,.18);
-
-    --pin:#006eff;
-    --pin-ring:rgba(11,116,255,.22);
-
-    --bar:#000;
+    --fg:#000; --muted:#333; --accent:#00a898;
+    --bullet:#006eff; --bullet-ring:rgba(0,110,255,.18);
+    --pin:#006eff; --pin-ring:rgba(11,116,255,.22);
+    --bar:#000; --card:#fff; --card-border:#e7eaf0; --card-border-hover:#dde2ea;
+    --sub-bg:rgba(0,110,255,.06); --sub-border:rgba(0,110,255,.28);
+    --sub-fg:#000;                /* Brussels text color in light mode */
   }
   html[data-theme="light"] body{ background:linear-gradient(180deg,#eef1f5 0%, #f9fafb 100%); }
   html[data-theme="light"] .map-wrap{ background:radial-gradient(1000px 600px at 50% -200px, #f2f4f7, #f7f8fa); }
@@ -212,11 +203,9 @@
   <header>
     <span class="title">FELDENKRAIS AROUND THE WORLD</span>
     <button id="themeToggle" class="toggle-icon" type="button" aria-label="Toggle theme" aria-pressed="false">
-      <!-- moon (shown in dark) -->
       <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true">
         <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8" />
       </svg>
-      <!-- sun (shown in light) -->
       <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true">
         <circle cx="12" cy="12" r="4" fill="none"/>
         <path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12" fill="none"/>
@@ -236,7 +225,7 @@
     </section>
 
     <aside class="panel" aria-label="Organizations list">
-      <div class="hint">Select country from the list</div>
+      <div class="hint">Countries</div>
       <div class="list" id="list"></div>
     </aside>
   </main>
@@ -253,15 +242,15 @@ const places = [
   {id:"CZ",  name:"CZECH REPUBLIC", lat:50.9480,  lon:-16.5526,  org:"Spolek Feldenkraisovy metody v ČR",          url:"https://spolek-feldenkrais.cz/vycviky-kurzy/"},
   {id:"FI",  name:"FINLAND",        lat:63.9139,  lon:-8.0616,   org:"Suomen Feldenkraisyhdistys",                 url:"https://www.feldenkrais.fi/feldenkraismenetelma/"},
   {id:"FR",  name:"FRANCE",         lat:47.8566,  lon:-28.6478,  org:"Feldenkrais France",                          url:"https://www.feldenkrais-france.org/evenements/jff"},
-  {id:"DE",  name:"GERMANY",        lat:53.4480,  lon:-19.0526,  org:"FVD Feldenkrais-Verband Deutschland e.V.",    url:"http://www.feldenkrais.de/"},
-  {id:"HK",  name:"HONG KONG / CHINA", lat:15.0330, lon:91.0000, org:"Greater China Feldenkrais Association",       url:"mailto:richard@bodyworksasia.cn"},
+  {id:"DE",  name:"GERMANY",        lat:53.4480,  lon:-19.0526,  org:"FVD Feldenkrais  -  Verband Deutschland e.V.",    url:"http://www.feldenkrais.de/"},
+  {id:"HK",  name:"HONG KONG / CHINA", lat:15.0330, lon:91.0000, org:"China Feldenkrais Association",       url:"mailto:richard@bodyworksasia.cn"},
   {id:"IL",  name:"ISRAEL",         lat:28.7683,  lon:5.2137,   org:"Israeli Feldenkrais Qualified Practitioners Association", url:"http://www.feldenkrais-israel.org/"},
   {id:"IT",  name:"ITALY",          lat:39.9028,  lon:-17.5036,  org:"AIIMF",                                      url:"http://www.feldenkrais.it/"},
   {id:"MX",  name:"MEXICO",         lat:12.4326,  lon:-141.1332, org:"AMMEF",                                      url:"http://www.feldenkraismexico.org/"},
   {id:"NL",  name:"NETHERLANDS",lat:54.4074,  lon:-23.9278,  org:"Nederlandse Feldenkrais Vereniging",         url:"http://www.feldenkrais.nl/"},
   {id:"NZ",  name:"NEW ZEALAND",    lat:-68.2820, lon:144.1287,  org:"The New Zealand Feldenkrais Guild",          url:"http://www.feldenkrais.org.nz/"},
   {id:"NO",  name:"NORWAY",         lat:63.9139,  lon:-21.2478,  org:"NFAFP",                                      url:"http://www.feldenkraismetoden.no/"},
-  {id:"QC",  name:"QUEBEC (CANADA)",lat:48.8139,  lon:-99.2080,  org:"Association Feldenkrais Québec",             url:"http://www.feldenkraisqc.info/"},
+  {id:"QC",  name:"CANADA",lat:48.8139,  lon:-99.2080,  org:"Association Feldenkrais Québec",             url:"http://www.feldenkraisqc.info/"},
   {id:"RU",  name:"RUSSIA",         lat:57.7558,  lon:1.6173,    org:"Russian Feldenkrais Guild Association",       url:"https://feldenkraisguild-russia.com"},
   {id:"SI",  name:"SLOVENIJA",      lat:46.0569,  lon:-17.4942,  org:"Društvo učiteljev metode Feldenkrais",       url:"https://www.feldenkrais.si/"},
   {id:"ES",  name:"SPAIN",          lat:38.4168,  lon:-35.7038,  org:"Asociación Feldenkrais España",              url:"http://www.asociacionfeldenkrais.es/"},
@@ -272,15 +261,15 @@ const places = [
   {id:"AUS", name:"AUSTRALASIA (AusTAB)", lat:-46.2820, lon:112.1287, org:"Australian Training and Accreditation Board", url:"https://www.feldenkrais-austab.org"},
   {id:"EUR", name:"EUROPE (EuroTAB)",     lat:43.8566, lon:-30.6478, org:"European Training Accreditation Board",  url:"http://www.eurotab.org/"},
   {id:"NAM", name:"THE AMERICAS (NATAB)", lat:36.5000, lon:-135.3500, org:"North American Training Accreditation Board", url:"https://www.feldenkraisguild.com/page/north-american-training-accreditation-board"},
-  {id:"DTAB",name:"GERMANY (DTAB)",        lat:50.8503,  lon:-21.6483, org:"Deutsches Trainings-Akkreditierungs-Board", url:"https://www.feldenkrais.de/feldenkrais-methode/feldenkrais-lernen/ausbildung/d-tab-stellt-sich-vor"}
+  {id:"DTAB",name:"GERMANY (DTAB)",        lat:50.8503,  lon:-21.6483, org:"Deutsches Trainings und Akkreditierungs Board", url:"https://www.feldenkrais.de/feldenkrais-methode/feldenkrais-lernen/ausbildung/d-tab-stellt-sich-vor"}
 ];
 
-/* ---- list (Belgium first + separator) ---- */
+/* ---- list (Belgium first + Brussels pill + separator) ---- */
 const listEl = document.getElementById('list');
 (function renderList(){
   const belgium = places.find(p => p.id === "BE");
   if (belgium){
-    addPlaceItem(belgium);
+    addBelgiumItem(belgium);
     const sep = document.createElement('div');
     sep.className = 'sep';
     listEl.appendChild(sep);
@@ -290,10 +279,40 @@ const listEl = document.getElementById('list');
     addPlaceItem(p);
   }
 })();
+
+function addBelgiumItem(p){
+  const el = document.createElement('button');
+  el.className = 'item'; el.dataset.id = p.id;
+  el.innerHTML = `
+    <span class="dot"></span>
+    <div class="content">
+      <div class="country">${p.name}</div>
+      <div class="org">${p.org}</div>
+      <a class="subbox" href="info.pdf" target="_blank" rel="noopener" aria-label="Open Brussels PDF">
+        <!-- small star icon on the left -->
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 3.5l2.47 5.01 5.53.8-4 3.9.94 5.5L12 16.9 7.06 18.7 8 13.99 4 10.31l5.53-.8L12 3.5z"/>
+        </svg>
+        Brussels
+      </a>
+    </div>
+  `;
+  // Hover/focus pin sync
+  el.addEventListener('mouseenter', ()=> setActivePin(p.id,true));
+  el.addEventListener('mouseleave', ()=> setActivePin(p.id,false));
+  el.addEventListener('focus', ()=> setActivePin(p.id,true));
+  el.addEventListener('blur', ()=> setActivePin(p.id,false));
+  // Card click -> Belgium site
+  el.addEventListener('click', ()=> openLink(p.url));
+  // Prevent pill click from triggering parent
+  el.querySelector('.subbox').addEventListener('click', (e)=> e.stopPropagation());
+  listEl.appendChild(el);
+}
+
 function addPlaceItem(p){
   const el = document.createElement('button');
   el.className = 'item'; el.dataset.id = p.id;
-  el.innerHTML = `<span class="dot"></span><div><div class="country">${p.name}</div><div class="org">${p.org}</div></div>`;
+  el.innerHTML = `<span class="dot"></span><div class="content"><div class="country">${p.name}</div><div class="org">${p.org}</div></div>`;
   el.addEventListener('mouseenter', ()=> setActivePin(p.id,true));
   el.addEventListener('mouseleave', ()=> setActivePin(p.id,false));
   el.addEventListener('focus', ()=> setActivePin(p.id,true));
@@ -329,7 +348,6 @@ const img = document.getElementById('worldMap');
 function lonLatToImagePx(lon, lat, imgW, imgH){
   return { x: (lon + 180) / 360 * imgW, y: (90 - lat) / 180 * imgH };
 }
-
 function ensurePins(){
   for (const p of places){
     if (!document.querySelector(`.pin[data-id="${p.id}"]`)){
@@ -353,7 +371,6 @@ function ensurePins(){
     }
   }
 }
-
 function layoutPins(){
   if (!img.complete || !img.naturalWidth) return;
   ensurePins();
@@ -379,12 +396,10 @@ function layoutPins(){
     }
   }
 }
-
 function setActivePin(id, on){
   const pin = document.querySelector(`.pin[data-id="${id}"]`);
   if (pin) pin.classList.toggle('active', !!on);
 }
-
 function openLink(url){
   if (!url) return;
   if (/^mailto:/i.test(url)) window.location.href = url;
