@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Feldenkrais Around The World</title>
+<title>Feldenkrais Around The Globe</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 <style>
   :root{
@@ -64,7 +64,7 @@
     margin:10px auto 6px;
     padding:6px 10px;
     font-weight:600;
-    font-size:clamp(14px,1.6vw,22px);
+    font-size:clamp(14px,1.6vw,19px);
     line-height:1.25;
     letter-spacing:.2px;
     text-wrap:balance;
@@ -182,6 +182,25 @@ html[data-theme="light"] .sep{ border-bottom:1px solid #cfd5df; }
     .pin a{ inset:-5px; }
   }
 
+.site-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  padding: 12px 10px;
+  font-size: 12px;
+  color: var(--muted);
+  border-top: 1px solid #2a2a2a;
+  background: var(--bar);
+  z-index: 100;
+}
+
+html[data-theme="light"] .site-footer {
+  border-top: 1px solid #e5e8ee;
+  background: #fff;
+  color: #777;
+}
   /* Light mode overrides (Brussels text becomes black) */
   html[data-theme="light"]{
     --fg:#000; --muted:#333; --accent:#00a898;
@@ -201,7 +220,7 @@ html[data-theme="light"] .sep{ border-bottom:1px solid #cfd5df; }
 </head>
 <body>
   <header>
-    <span class="title">FELDENKRAIS AROUND THE WORLD</span>
+    <span class="title">FELDENKRAIS AROUND THE GLOBE</span>
     <button id="themeToggle" class="toggle-icon" type="button" aria-label="Toggle theme" aria-pressed="false">
       <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true">
         <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8" />
@@ -215,7 +234,7 @@ html[data-theme="light"] .sep{ border-bottom:1px solid #cfd5df; }
 
   <main>
     <section class="map-wrap" id="mapWrap" aria-label="World map with interactive pins">
-      <div class="subtitle">Find out about Feldenkrais events around the world</div>
+      <div class="subtitle">Find out about Feldenkrais events around the world!</div>
 
       <div class="map-pad">
         <img class="map" id="worldMap" alt="Minimal world map (no Antarctica)"
@@ -288,7 +307,7 @@ function addBelgiumItem(p){
     <div class="content">
       <div class="country">${p.name}</div>
       <div class="org">${p.org}</div>
-      <a class="subbox" href="info.pdf" target="_blank" rel="noopener" aria-label="Open Brussels PDF">
+      <a class="subbox" href="LightnessInLife.pdf" target="_blank" rel="noopener" aria-label="Open Brussels PDF">
         <!-- small star icon on the left -->
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path d="M12 3.5l2.47 5.01 5.53.8-4 3.9.94 5.5L12 16.9 7.06 18.7 8 13.99 4 10.31l5.53-.8L12 3.5z"/>
@@ -411,5 +430,8 @@ new ResizeObserver(layoutPins).observe(mapWrap);
 addEventListener('orientationchange', layoutPins);
 addEventListener('resize', layoutPins);
 </script>
+<footer class="site-footer">
+  <p>© 2025 EXAMPLE. All rights reserved.</p>
+</footer>
 </body>
 </html>
