@@ -171,7 +171,7 @@ html[data-theme="light"] .sep{ border-bottom:1px solid #cfd5df; }
 .pin a{position:absolute; inset:-8px; text-indent:-9999px;}
 
 @media (min-width:980px) and (orientation:landscape){
-  main{grid-template-rows:unset; grid-template-columns:minmax(0,1fr) 380px;}
+  main{grid-template-rows:unset; grid-template-columns:minmax(0,1fr) 400px;}
   .panel{border-top:none; border-left:1px solid #151515;}
   .map-wrap{min-height:100%}
 }
