@@ -1,21 +1,21 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="description" content="Discover Feldenkrais events, organizations, and training programs around the world. Explore the global Feldenkrais community and find classes near you.">
-<meta name="keywords" content="Feldenkrais, Feldenkrais Method, Feldenkrais events, Feldenkrais classes, Feldenkrais training, Feldenkrais organizations, Feldenkrais around the world, Awareness Through Movement, Functional Integration, movement education, somatic learning, global Feldenkrais community, Feldenkrais practitioners, international Feldenkrais">
-<meta name="robots" content="index, follow">
-
-<title>Feldenkrais Around The Globe</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Discover Feldenkrais events, organizations, and training programs around the world. Explore the global Feldenkrais community and find classes near you.">
+  <meta name="keywords" content="Feldenkrais, Feldenkrais Method, Feldenkrais events, Feldenkrais classes, Feldenkrais training, Feldenkrais organizations, Feldenkrais around the world, Awareness Through Movement, Functional Integration, movement education, somatic learning, global Feldenkrais community, Feldenkrais practitioners, international Feldenkrais">
+  <meta name="robots" content="index, follow">
+  <title>Feldenkrais Around The Globe</title>
+  <!-- Prevent theme flash -->
+  <script>(function(){var t=localStorage.getItem('theme')||'light';document.documentElement.setAttribute('data-theme',t);}());</script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
-    <span class="title" style="color:inherit; text-decoration: none;">FELDENKRAIS AROUND THE GLOBE</span>
-    <a href="contact.html" class="header-link" style="color:inherit; text-decoration:none; font-size:10px;">Contact Us</a>
-  
+    <a href="index.html" class="title">FELDENKRAIS AROUND THE GLOBE</a>
+    <a href="contact.html" class="header-link">Contact Us</a>
     <button id="themeToggle" class="toggle-icon" type="button" aria-label="Toggle theme" aria-pressed="false">
       <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true">
         <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8" />
@@ -30,7 +30,6 @@
   <main>
     <section class="map-wrap" id="mapWrap" aria-label="World map with interactive pins">
       <div class="subtitle">Find out about Feldenkrais events around the world!</div>
-
       <div class="map-pad">
         <img class="map" id="worldMap" alt="Minimal world map (no Antarctica)"
              src="https://upload.wikimedia.org/wikipedia/commons/8/87/World_map_without_Antarctica.svg" />
@@ -44,46 +43,91 @@
     </aside>
   </main>
 
+  <!-- Modal (clean custom popup) -->
+  <div id="pop" class="pop-backdrop" aria-hidden="true">
+    <div class="pop" role="dialog" aria-modal="true" aria-labelledby="pop-title" aria-describedby="pop-text">
+      <h2 id="pop-title" class="pop-title">No activities found</h2>
+      <p id="pop-text" class="pop-text">Have something to add? Contact us.</p>
+      <div class="pop-actions">
+        <a href="contact.html" class="pop-btn pop-accent">Contact us</a>
+        <button type="button" class="pop-btn" data-pop-close>OK</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <p>© 2025 A. Berketi. All rights reserved.</p>
+  </footer>
+
 <script>
 /* ---- data ---- */
 const places = [
-  {id:"AR",  name:"ARGENTINA",     lat:-60.0000, lon:-91.3816,  org:"Asociación Método Feldenkrais® Argentina", url:"https://feldenkrais.org.ar/de-la-asociacion/"},
-  {id:"AU",  name:"AUSTRALIA",      lat:-63.2820, lon:120.1287,  org:"Australian Feldenkrais Guild Inc (AFG)",     url:"https://www.feldenkrais.org.au/classes"},
-  {id:"AT",  name:"AUSTRIA",        lat:47.6569,  lon:-14.6942,  org:"Feldenkrais Verband Österreich (FVO)",       url:"https://www.feldenkrais.at/aktionstage"},
-  {id:"BE",  name:"BELGIUM",        lat:50.8503,  lon:-25.6483,  org:"The Feldenkrais Association of Belgium",     url:"http://www.feldenkraisbelgium.be/"},
-  {id:"CL",  name:"CHILE",          lat:-58.0000, lon:-105.3816, org:"Asociacion Chilena de Instructores de Feldenkrais", url:"https://achifeldenkrais.wordpress.com/"},
-  {id:"CO",  name:"COLOMBIA",       lat:-7.0000,  lon:-114.3816, org:"ACOPMEF",                                     url:"https://www.feldenkraislatino.com/eventos/"},
-  {id:"CZ",  name:"CZECH REPUBLIC", lat:50.9480,  lon:-16.5526,  org:"Spolek Feldenkraisovy metody v ČR",          url:"https://spolek-feldenkrais.cz/vycviky-kurzy/"},
-  {id:"FI",  name:"FINLAND",        lat:63.9139,  lon:-8.0616,   org:"Suomen Feldenkraisyhdistys",                 url:"https://www.feldenkrais.fi/feldenkraismenetelma/"},
-  {id:"FR",  name:"FRANCE",         lat:47.8566,  lon:-28.6478,  org:"Feldenkrais France",                          url:"https://www.feldenkrais-france.org/evenements/jff"},
-  {id:"DE",  name:"GERMANY",        lat:53.4480,  lon:-19.0526,  org:"FVD Feldenkrais  -  Verband Deutschland e.V.",    url:"http://www.feldenkrais.de/"},
-  {id:"HK",  name:"HONG KONG / CHINA", lat:15.0330, lon:91.0000, org:"China Feldenkrais Association",       url:"mailto:richard@bodyworksasia.cn"},
-  {id:"IL",  name:"ISRAEL",         lat:28.7683,  lon:5.2137,   org:"Israeli Feldenkrais Qualified Practitioners Association", url:"http://www.feldenkrais-israel.org/"},
-  {id:"IT",  name:"ITALY",          lat:39.9028,  lon:-17.5036,  org:"AIIMF",                                      url:"http://www.feldenkrais.it/"},
-  {id:"MX",  name:"MEXICO",         lat:12.4326,  lon:-141.1332, org:"AMMEF",                                      url:"http://www.feldenkraismexico.org/"},
-  {id:"NL",  name:"NETHERLANDS",lat:54.4074,  lon:-23.9278,  org:"Nederlandse Feldenkrais Vereniging",         url:"http://www.feldenkrais.nl/"},
-  {id:"NZ",  name:"NEW ZEALAND",    lat:-68.2820, lon:144.1287,  org:"The New Zealand Feldenkrais Guild",          url:"http://www.feldenkrais.org.nz/"},
-  {id:"NO",  name:"NORWAY",         lat:63.9139,  lon:-21.2478,  org:"NFAFP",                                      url:"http://www.feldenkraismetoden.no/"},
-  {id:"QC",  name:"CANADA",lat:48.8139,  lon:-99.2080,  org:"Association Feldenkrais Québec",             url:"http://www.feldenkraisqc.info/"},
-  {id:"RU",  name:"RUSSIA",         lat:57.7558,  lon:1.6173,    org:"Russian Feldenkrais Guild Association",       url:"https://feldenkraisguild-russia.com"},
-  {id:"SI",  name:"SLOVENIJA",      lat:46.0569,  lon:-17.4942,  org:"Društvo učiteljev metode Feldenkrais",       url:"https://www.feldenkrais.si/"},
-  {id:"ES",  name:"SPAIN",          lat:38.4168,  lon:-35.7038,  org:"Asociación Feldenkrais España",              url:"http://www.asociacionfeldenkrais.es/"},
-  {id:"SE",  name:"SWEDEN",         lat:61.9139,  lon:-15.2478,  org:"SFAF",                                       url:"http://www.feldenkraismetoden.org/"},
-  {id:"CH",  name:"SWITZERLAND",    lat:46.5566,  lon:-23.6478,  org:"SFV Schweizerischer Feldenkrais Verband",    url:"http://www.feldenkrais.ch/"},
-  {id:"TW",  name:"TAIWAN",         lat:16.0330,  lon:97.5654,   org:"Feldenkrais Guild Taiwan",                   url:"http://www.feldenkrais-guild.tw"},
-  {id:"UK",  name:"UNITED KINGDOM", lat:53.5074,  lon:-32.1278,  org:"The Feldenkrais Guild U.K.",                 url:"http://www.feldenkrais.co.uk/"},
-  {id:"AUS", name:"AUSTRALASIA (AusTAB)", lat:-46.2820, lon:112.1287, org:"Australian Training and Accreditation Board", url:"https://www.feldenkrais-austab.org"},
-  {id:"EUR", name:"EUROPE (EuroTAB)",     lat:43.8566, lon:-30.6478, org:"European Training Accreditation Board",  url:"http://www.eurotab.org/"},
-  {id:"NAM", name:"THE AMERICAS (NATAB)", lat:36.5000, lon:-135.3500, org:"North American Training Accreditation Board", url:"https://www.feldenkraisguild.com/page/north-american-training-accreditation-board"},
-  {id:"DTAB",name:"GERMANY (DTAB)",        lat:50.8503,  lon:-21.6483, org:"Deutsches Trainings und Akkreditierungs Board", url:"https://www.feldenkrais.de/feldenkrais-methode/feldenkrais-lernen/ausbildung/d-tab-stellt-sich-vor"}
+  {id:"AR",name:"ARGENTINA",lat:-60,lon:-91.3816,
+   workshops:[{url:"https://feldenkrais.org.ar/de-la-asociacion/"}],
+   events:[{url:"https://feldenkrais.org.ar/con-el-apoyo-de-la-asociacion/"}]},
+  {id:"AU",name:"AUSTRALIA",lat:-63.282,lon:120.1287,
+   workshops:[{url:"https://www.feldenkrais.org.au/classes"}],
+   events:[{url:"https://www.feldenkrais.org.au/special-interest-groups"}]},
+  {id:"AT",name:"AUSTRIA",lat:47.6569,lon:-14.6942,
+   workshops:[], events:[{url:"https://www.feldenkrais.at/aktionstage"}]},
+  { id:"BE", name:"BELGIUM", lat:50.8503, lon:-25.6483,
+    workshops:[{url:"LightnessInLife.pdf"}],
+    events:[{url:"https://www.feldenkraisbelgium.be/fr/agenda-0"}],
+    extra:[{label:"Forest Lighthouse", url:"https://forest-lighthouse.be/en/"}]   // <-- add this
+  },
+  {id:"CL",name:"CHILE",lat:-58,lon:-105.3816,
+   workshops:[], events:[{url:"https://achifeldenkrais.wordpress.com/boletin-de-la-asociacion/"}]},
+  {id:"CO",name:"COLOMBIA",lat:-7,lon:-114.3816,
+   workshops:[{url:"https://www.feldenkraislatino.com/eventos/"}],
+   events:[{url:"https://www.feldenkraislatino.com"}]},
+  {id:"CZ",name:"CZECH REPUBLIC",lat:50.948,lon:-16.5526,
+   workshops:[{url:"https://spolek-feldenkrais.cz/aktuality/"}],
+   events:[{url:"https://spolek-feldenkrais.cz/vycviky-kurzy/"}]},
+  {id:"FI",name:"FINLAND",lat:63.9139,lon:-8.0616,workshops:[],events:[{url:"https://www.feldenkrais.fi/"}]},
+  {id:"FR",name:"FRANCE",lat:47.8566,lon:-28.6478,
+   workshops:[{url:"https://www.feldenkrais-france.org/evenements/jff"}],
+   events:[
+     {url:"https://www.feldenkrais-france.org/post/les-stages-de-septembre-2025-methode-feldenkrais-partout-en-france"},
+     {url:"https://www.feldenkrais-france.org/blog/categories/%C3%A9v%C3%A9nements"}
+   ]},
+  {id:"DE",name:"GERMANY",lat:53.448,lon:-19.0526,
+   workshops:[], events:[{url:"https://www.feldenkrais.de/termine/termine-suchen"}]},
+  {id:"HK",name:"HONG KONG / CHINA",lat:15.033,lon:91,workshops:[],events:[{url:"https://www.feldenkrais.com.hk/"}]},
+  {id:"IL",name:"ISRAEL",lat:28.7683,lon:5.2137,workshops:[],events:[{url:"http://www.feldenkrais-israel.org/"}]},
+  {id:"IT",name:"ITALY",lat:39.9028,lon:-17.5036,workshops:[],events:[{url:"https://feldenkrais.it/"}]},
+  {id:"MX",name:"MEXICO",lat:12.4326,lon:-141.1332,workshops:[],events:[{url:"https://www.feldenkraismexico.org/"}]},
+  {id:"NL",name:"NETHERLANDS",lat:54.4074,lon:-23.9278,
+   workshops:[{url:"https://www.feldenkrais.nl/agenda/kalender"}],
+   events:[{url:"https://www.feldenkrais.nl/actueel"}]},
+  {id:"NZ",name:"NEW ZEALAND",lat:-68.282,lon:144.1287,
+   workshops:[{url:"https://www.feldenkrais.org.nz/about/events/"}],
+   events:[{url:"https://www.feldenkrais.org.nz"}]},
+  {id:"NO",name:"NORWAY",lat:63.9139,lon:-21.2478,
+   workshops:[{url:"https://feldenkraismetoden.no/kalender/"}],
+   events:[{url:"https://feldenkraismetoden.no/"}]},
+  {id:"QC",name:"CANADA",lat:48.8139,lon:-99.208,workshops:[],events:[{url:"https://feldenkraisqc-ca.translate.goog/?page_id=127&_x_tr_sl=fr&_x_tr_tl=en&_x_tr_hl=en&_x_tr_pto=sc"}]},
+  {id:"RU",name:"RUSSIA",lat:57.7558,lon:1.6173,workshops:[],events:[{url:"https://feldenkraisguild-russia.com/"}]},
+  {id:"SI",name:"SLOVENIJA",lat:46.0569,lon:-17.4942,workshops:[],events:[{url:"https://www.feldenkrais.si/"}]},
+  {id:"ES",name:"SPAIN",lat:38.4168,lon:-35.7038,
+   workshops:[{url:"https://www.asociacionfeldenkrais.es/actividades/"}],
+   events:[{url:"https://www.asociacionfeldenkrais.es/"}]},
+  {id:"SE",name:"SWEDEN",lat:61.9139,lon:-15.2478,
+   workshops:[{url:"https://www.feldenkraismetoden.org/lista-event-och-onlineklasser/"}],
+   events:[{url:"https://www.feldenkraismetoden.org/"}]},
+  {id:"CH",name:"SWITZERLAND",lat:46.5566,lon:-23.6478,
+   workshops:[{url:"https://www.feldenkrais.ch/fr/liste-veranstaltungen/"}],
+   events:[{url:"https://www.feldenkrais.ch/fr/426-2/"}]},
+  {id:"TW",name:"TAIWAN",lat:16.033,lon:97.5654,workshops:[],events:[{url:"https://www.feldenkrais-guild.tw/"}]},
+  {id:"UK",name:"UNITED KINGDOM",lat:53.5074,lon:-32.1278,workshops:[],events:[{url:"https://www.feldenkrais.co.uk/"}]},
+  {id:"US",name:"UNITED STATES",lat:37.5,lon:-135,workshops:[],events:[{url:"https://www.feldenkraisguild.com/"}]}
 ];
 
-/* ---- list (Belgium first + Brussels pill + separator) ---- */
+/* ---- list (Belgium first + separator) ---- */
 const listEl = document.getElementById('list');
 (function renderList(){
   const belgium = places.find(p => p.id === "BE");
   if (belgium){
-    addBelgiumItem(belgium);
+    addPlaceItem(belgium);
     const sep = document.createElement('div');
     sep.className = 'sep';
     listEl.appendChild(sep);
@@ -94,45 +138,75 @@ const listEl = document.getElementById('list');
   }
 })();
 
-function addBelgiumItem(p){
+/* helpers */
+function firstUrl(arr){ return (arr && arr[0] && arr[0].url) ? arr[0].url : null; }
+function primaryUrl(p){ return firstUrl(p.workshops) || firstUrl(p.events); }
+
+let _popPrev = null;
+function showPopup(title, text){
+  const bd = document.getElementById('pop');
+  bd.querySelector('#pop-title').textContent = title || 'Notice';
+  bd.querySelector('#pop-text').textContent  = text  || '';
+  bd.classList.add('show');
+  bd.setAttribute('aria-hidden','false');
+  _popPrev = document.activeElement;
+  bd.querySelector('[data-pop-close]').focus();
+}
+function hidePopup(){
+  const bd = document.getElementById('pop');
+  bd.classList.remove('show');
+  bd.setAttribute('aria-hidden','true');
+  if (_popPrev) _popPrev.focus();
+}
+document.getElementById('pop').addEventListener('click', e=>{
+  if (e.target.id === 'pop' || e.target.hasAttribute('data-pop-close')) hidePopup();
+});
+addEventListener('keydown', e=>{ if (e.key === 'Escape') hidePopup(); });
+
+function noActivitiesAlert(){
+  showPopup('No activities found','Have something to add? Contact us.');
+}
+
+function attachPillHandlers(container){
+  container.querySelectorAll('.subbox').forEach(a=>{
+    a.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      e.preventDefault();
+      const url = a.dataset.url || '';
+      if (url) openLink(url);
+      else noActivitiesAlert();
+    });
+  });
+}
+
+function addPlaceItem(p){
+  const w = firstUrl(p.workshops);
+  const e = firstUrl(p.events);
+
   const el = document.createElement('button');
   el.className = 'item'; el.dataset.id = p.id;
   el.innerHTML = `
     <span class="dot"></span>
     <div class="content">
       <div class="country">${p.name}</div>
-      <div class="org">${p.org}</div>
-      <a class="subbox" href="LightnessInLife.pdf" target="_blank" rel="noopener" aria-label="Open Brussels PDF">
-        <!-- small star icon on the left -->
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M12 3.5l2.47 5.01 5.53.8-4 3.9.94 5.5L12 16.9 7.06 18.7 8 13.99 4 10.31l5.53-.8L12 3.5z"/>
-        </svg>
-        Brussels
-      </a>
-    </div>
-  `;
-  // Hover/focus pin sync
+      <div class="pills">
+        <a class="subbox" href="#" data-url="${w ? w : ''}">Workshops</a>
+        <a class="subbox" href="#" data-url="${e ? e : ''}">Other events</a>
+        ${p.extra && p.extra[0]
+          ? `<a class="subbox" href="#" data-url="${p.extra[0].url}">${p.extra[0].label}</a>`
+          : ``}
+      </div>
+    </div>`;
   el.addEventListener('mouseenter', ()=> setActivePin(p.id,true));
   el.addEventListener('mouseleave', ()=> setActivePin(p.id,false));
   el.addEventListener('focus', ()=> setActivePin(p.id,true));
-  el.addEventListener('blur', ()=> setActivePin(p.id,false));
-  // Card click -> Belgium site
-  el.addEventListener('click', ()=> openLink(p.url));
-  // Prevent pill click from triggering parent
-  el.querySelector('.subbox').addEventListener('click', (e)=> e.stopPropagation());
+  el.addEventListener('blur',  ()=> setActivePin(p.id,false));
+  el.addEventListener('click', ()=>{
+    const u = primaryUrl(p);
+    if (u) openLink(u); else noActivitiesAlert();
+  });
   listEl.appendChild(el);
-}
-
-function addPlaceItem(p){
-  const el = document.createElement('button');
-  el.className = 'item'; el.dataset.id = p.id;
-  el.innerHTML = `<span class="dot"></span><div class="content"><div class="country">${p.name}</div><div class="org">${p.org}</div></div>`;
-  el.addEventListener('mouseenter', ()=> setActivePin(p.id,true));
-  el.addEventListener('mouseleave', ()=> setActivePin(p.id,false));
-  el.addEventListener('focus', ()=> setActivePin(p.id,true));
-  el.addEventListener('blur', ()=> setActivePin(p.id,false));
-  el.addEventListener('click', ()=> openLink(p.url));
-  listEl.appendChild(el);
+  attachPillHandlers(el);
 }
 
 /* ---- theme toggle ---- */
@@ -140,8 +214,7 @@ const root = document.documentElement;
 const btn = document.getElementById('themeToggle');
 (function initTheme(){
   const saved = localStorage.getItem('theme');
-  const prefersLight = window.matchMedia?.('(prefers-color-scheme: light)').matches;
-  setTheme(saved || (prefersLight ? 'light' : 'dark'));
+  setTheme(saved || 'light'); // default to light
 })();
 btn.addEventListener('click', () => {
   setTheme(root.getAttribute('data-theme') === 'light' ? 'dark' : 'light');
@@ -172,14 +245,18 @@ function ensurePins(){
       pin.tabIndex = 0;
 
       const a = document.createElement('a');
-      a.href = p.url || '#';
-      a.target = /^mailto:/i.test(p.url) ? '_self' : '_blank';
+      const u = primaryUrl(p);
+      a.href = u || '#';
+      a.target = u && /^mailto:/i.test(u) ? '_self' : '_blank';
       a.rel = 'noopener';
       pin.appendChild(a);
 
       pin.addEventListener('focus', ()=> setActivePin(p.id,true));
       pin.addEventListener('blur',  ()=> setActivePin(p.id,false));
-      pin.addEventListener('click', ()=> openLink(p.url));
+      pin.addEventListener('click', ()=>{
+        const url = primaryUrl(p);
+        if (url) openLink(url); else noActivitiesAlert();
+      });
 
       mapWrap.appendChild(pin);
     }
@@ -225,8 +302,5 @@ new ResizeObserver(layoutPins).observe(mapWrap);
 addEventListener('orientationchange', layoutPins);
 addEventListener('resize', layoutPins);
 </script>
-<footer class="site-footer">
-  <p>© 2025 A. Berketi. All rights reserved.</p>
-</footer>
 </body>
 </html>
