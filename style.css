@@ -57,7 +57,7 @@ html[data-theme="dark"] .icon-sun{display:none}
 html[data-theme="light"] .icon-moon{display:none}
 
 /* layout */
-main{height:calc(100% - 56px); display:grid; grid-template-rows:42vh 1fr;}
+main{height:calc(100% - 56px); display:grid; grid-template-rows:40vh 1fr;}
 
 .map-wrap{
   position:relative; display:grid; grid-template-rows:auto 1fr;
