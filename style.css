@@ -241,3 +241,39 @@ html[data-theme="light"] .sep{ border-bottom:1px solid #e5e8ee; }
 /* light tweaks for modal */
 html[data-theme="light"] .pop{ background:#fff }
 html[data-theme="light"] .pop-btn{ background:#f7f8fa; color:#000 }
+
+/* toolbar */
+.panel-bar{
+  display:flex; align-items:center; justify-content:space-between;
+  margin:6px 2px 10px;
+}
+.panel .hint{ margin:0 } /* avoid double spacing */
+
+/* cute switch (theme-aware, scales with text) */
+.switch{ display:inline-flex; align-items:center; gap:.55em; font-size:12px; user-select:none; cursor:pointer; }
+.switch input{ position:absolute; opacity:0; pointer-events:none; }
+.switch-label{ font-weight:600; color:var(--muted); }
+
+.switch .slider{
+  --h: 1.25em;                 /* height scales with surrounding text */
+  --w: calc(var(--h) * 1.9);   /* width */
+  position:relative; width:var(--w); height:var(--h); border-radius:999px;
+  background:rgba(255,255,255,.08); border:1px solid var(--card-border);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.03);
+  transition:background .2s, border-color .2s;
+}
+.switch .slider::after{
+  content:""; position:absolute; top:50%; left:2px;
+  width:calc(var(--h) - 6px); height:calc(var(--h) - 6px); border-radius:999px;
+  background:#fff; box-shadow:0 1px 2px rgba(0,0,0,.35);
+  transform:translate(0,-50%); transition:transform .2s;
+}
+.switch input:checked + .slider{
+  background:var(--sub-bg); border-color:var(--sub-border);
+}
+.switch input:checked + .slider::after{
+  transform:translate(calc(var(--w) - var(--h)), -50%);
+  background:var(--pin);
+}
+html[data-theme="light"] .switch .slider{ background:#f1f3f7; }
+html[data-theme="light"] .switch-label{ color:#555; }
