@@ -75,6 +75,7 @@ const places = [
     events:[{url:"https://www.feldenkraisbelgium.be/fr/agenda-0"}],
     extra:[{label:"Forest Lighthouse", url:"https://forest-lighthouse.be/en/"}]   // <-- add this
   },
+  {id:"CA",name:"CANADA",lat:48.8139,lon:-99.208,workshops:[],events:[{url:"https://feldenkraisqc-ca.translate.goog/?page_id=127&_x_tr_sl=fr&_x_tr_tl=en&_x_tr_hl=en&_x_tr_pto=sc"}]},
   {id:"CL",name:"CHILE",lat:-58,lon:-105.3816,
    workshops:[], events:[{url:"https://achifeldenkrais.wordpress.com/boletin-de-la-asociacion/"}]},
   {id:"CO",name:"COLOMBIA",lat:-7,lon:-114.3816,
@@ -105,7 +106,6 @@ const places = [
   {id:"NO",name:"NORWAY",lat:63.9139,lon:-21.2478,
    workshops:[{url:"https://feldenkraismetoden.no/kalender/"}],
    events:[{url:"https://feldenkraismetoden.no/"}]},
-  {id:"QC",name:"CANADA",lat:48.8139,lon:-99.208,workshops:[],events:[{url:"https://feldenkraisqc-ca.translate.goog/?page_id=127&_x_tr_sl=fr&_x_tr_tl=en&_x_tr_hl=en&_x_tr_pto=sc"}]},
   {id:"RU",name:"RUSSIA",lat:57.7558,lon:1.6173,workshops:[],events:[{url:"https://feldenkraisguild-russia.com/"}]},
   {id:"SI",name:"SLOVENIJA",lat:46.0569,lon:-17.4942,workshops:[],events:[{url:"https://www.feldenkrais.si/"}]},
   {id:"ES",name:"SPAIN",lat:38.4168,lon:-35.7038,
@@ -119,7 +119,26 @@ const places = [
    events:[{url:"https://www.feldenkrais.ch/fr/426-2/"}]},
   {id:"TW",name:"TAIWAN",lat:16.033,lon:97.5654,workshops:[],events:[{url:"https://www.feldenkrais-guild.tw/"}]},
   {id:"UK",name:"UNITED KINGDOM",lat:53.5074,lon:-32.1278,workshops:[],events:[{url:"https://www.feldenkrais.co.uk/"}]},
-  {id:"US",name:"UNITED STATES",lat:37.5,lon:-135,workshops:[],events:[{url:"https://www.feldenkraisguild.com/"}]}
+  {id:"US",name:"UNITED STATES",lat:45.5,lon:-150,workshops:[],events:[{url:"https://www.feldenkraisguild.com/"}]},{ id:"AUS", name:"AUSTRALASIA (AusTAB)", lat:-46.2820, lon:112.1287,
+  workshops:[],                                          
+  events:[{ url:"https://www.feldenkrais-austab.org" }]  
+  },
+
+  { id:"EUR", name:"EUROPE (EuroTAB)", lat:43.8566, lon:-30.6478,
+    workshops:[{ url:"https://www.eurotab.org/index.php?dir=site&page=programs&op=category&cs=3" }], 
+    events:[{ url:"https://www.eurotab.org/" }]                                                        
+  },
+
+  { id:"NAM", name:"THE AMERICAS (NATAB)", lat:36.5000, lon:-135.3500,
+    workshops:[], 
+    events:[{ url:"https://www.feldenkraisguild.com/page/north-american-training-accreditation-board" }]
+  },
+
+  { id:"DTAB", name:"GERMANY (DTAB)", lat:50.8503, lon:-21.6483,
+    workshops:[],                                           
+    events:[{ url:"https://www.feldenkrais.de/" }]          
+  }
+  
 ];
 
 /* ---- list (Belgium first + separator) ---- */
