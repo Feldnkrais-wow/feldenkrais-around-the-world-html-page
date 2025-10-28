@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Discover Feldenkrais events, organizations, and training programs around the world. Explore the global Feldenkrais community and find classes near you.">
-  <meta name="keywords" content="Feldenkrais, Feldenkrais Method, Feldenkrais events, Feldenkrais classes, Feldenkrais training, Feldenkrais organizations, Feldenkrais around the world, Awareness Through Movement, Functional Integration, movement education, somatic learning, global Feldenkrais community, Feldenkrais practitioners, international Feldenkrais">
+  <meta name="description"
+    content="Discover Feldenkrais events, organizations, and training programs around the world. Explore the global Feldenkrais community and find classes near you.">
+  <meta name="keywords"
+    content="Feldenkrais, Feldenkrais Method, Feldenkrais events, Feldenkrais classes, Feldenkrais training, Feldenkrais organizations, Feldenkrais around the world, Awareness Through Movement, Functional Integration, movement education, somatic learning, global Feldenkrais community, Feldenkrais practitioners, international Feldenkrais">
   <meta name="robots" content="index, follow">
   <title>Feldenkrais Around The Globe</title>
   <!-- Prevent theme flash -->
-  <script>(function(){var t=localStorage.getItem('theme')||'light';document.documentElement.setAttribute('data-theme',t);}());</script>
+  <script>(function () { var t = localStorage.getItem('theme') || 'light'; document.documentElement.setAttribute('data-theme', t); }());</script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
   <header>
     <a href="index.html" class="title">FELDENKRAIS AROUND THE GLOBE</a>
@@ -21,8 +25,10 @@
         <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8" />
       </svg>
       <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true">
-        <circle cx="12" cy="12" r="4" fill="none"/>
-        <path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12" fill="none"/>
+        <circle cx="12" cy="12" r="4" fill="none" />
+        <path
+          d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"
+          fill="none" />
       </svg>
     </button>
   </header>
@@ -32,7 +38,7 @@
       <div class="subtitle">Find out about Feldenkrais events around the world!</div>
       <div class="map-pad">
         <img class="map" id="worldMap" alt="Minimal world map (no Antarctica)"
-             src="https://upload.wikimedia.org/wikipedia/commons/8/87/World_map_without_Antarctica.svg" />
+          src="https://upload.wikimedia.org/wikipedia/commons/8/87/World_map_without_Antarctica.svg" />
         <div class="map-tint" aria-hidden="true"></div>
       </div>
     </section>
@@ -40,12 +46,12 @@
     <aside class="panel" aria-label="Organizations list">
       <div class="panel-bar">
         <div class="hint">Countries</div>
-          <label class="switch">
-            <input id="autoTranslate" type="checkbox" aria-label="Auto-translate to English">
-            <span class="slider" aria-hidden="true"></span>
-            <span class="switch-label">Auto&nbsp;translate&nbsp;to&nbsp;EN</span>
-          </label>
-        </div>
+        <label class="switch">
+          <input id="autoTranslate" type="checkbox" aria-label="Auto-translate to English">
+          <span class="slider" aria-hidden="true"></span>
+          <span class="switch-label">Auto&nbsp;translate&nbsp;to&nbsp;EN</span>
+        </label>
+      </div>
       </div>
       <div class="list" id="list"></div>
     </aside>
@@ -67,195 +73,228 @@
     <p>© 2025 A. Berketi. All rights reserved.</p>
   </footer>
 
-<script>
-/* ---- data ---- */
-const places = [
-  {id:"AR",name:"ARGENTINA",lat:-60,lon:-91.3816,
-   workshops:[{url:"https://feldenkrais.org.ar/de-la-asociacion/"}],
-   events:[{url:"https://feldenkrais.org.ar/con-el-apoyo-de-la-asociacion/"}]},
-  {id:"AU",name:"AUSTRALIA",lat:-63.282,lon:120.1287,
-   workshops:[{url:"https://www.feldenkrais.org.au/classes"}],
-   events:[{url:"https://www.feldenkrais.org.au/special-interest-groups"}]},
-  {id:"AT",name:"AUSTRIA",lat:47.6569,lon:-14.6942,
-   workshops:[], events:[{url:"https://www.feldenkrais.at/aktionstage"}]},
-  { id:"BE", name:"BELGIUM", lat:50.8503, lon:-25.6483,
-    workshops:[{url:"LightnessInLife.pdf"}],
-    events:[{url:"https://www.feldenkraisbelgium.be/fr/agenda-0"}],
-    extra:[{label:"Forest Lighthouse", url:"https://forest-lighthouse.be/en/"}]   // <-- add this
-  },
-  {id:"CA",name:"CANADA",lat:48.8139,lon:-99.208,workshops:[],events:[{url:"https://feldenkraisqc-ca.translate.goog/?page_id=127&_x_tr_sl=fr&_x_tr_tl=en&_x_tr_hl=en&_x_tr_pto=sc"}]},
-  {id:"CL",name:"CHILE",lat:-58,lon:-105.3816,
-   workshops:[], events:[{url:"https://achifeldenkrais.wordpress.com/boletin-de-la-asociacion/"}]},
-  {id:"CO",name:"COLOMBIA",lat:-7,lon:-114.3816,
-   workshops:[{url:"https://www.feldenkraislatino.com/eventos/"}],
-   events:[{url:"https://www.feldenkraislatino.com"}]},
-  {id:"CZ",name:"CZECH REPUBLIC",lat:50.948,lon:-16.5526,
-   workshops:[{url:"https://spolek-feldenkrais.cz/aktuality/"}],
-   events:[{url:"https://spolek-feldenkrais.cz/vycviky-kurzy/"}]},
-  {id:"FI",name:"FINLAND",lat:63.9139,lon:-8.0616,workshops:[],events:[{url:"https://www.feldenkrais.fi/"}]},
-  {id:"FR",name:"FRANCE",lat:47.8566,lon:-28.6478,
-   workshops:[{url:"https://www.feldenkrais-france.org/evenements/jff"}],
-   events:[
-     {url:"https://www.feldenkrais-france.org/post/les-stages-de-septembre-2025-methode-feldenkrais-partout-en-france"},
-     {url:"https://www.feldenkrais-france.org/blog/categories/%C3%A9v%C3%A9nements"}
-   ]},
-  {id:"DE",name:"GERMANY",lat:53.448,lon:-19.0526,
-   workshops:[], events:[{url:"https://www.feldenkrais.de/termine/termine-suchen"}]},
-  {id:"HK",name:"HONG KONG / CHINA",lat:15.033,lon:91,workshops:[],events:[{url:"https://www.feldenkrais.com.hk/"}]},
-  {id:"IL",name:"ISRAEL",lat:28.7683,lon:5.2137,workshops:[],events:[{url:"http://www.feldenkrais-israel.org/"}]},
-  {id:"IT",name:"ITALY",lat:39.9028,lon:-17.5036,workshops:[],events:[{url:"https://feldenkrais.it/"}]},
-  {id:"MX",name:"MEXICO",lat:12.4326,lon:-141.1332,workshops:[],events:[{url:"https://www.feldenkraismexico.org/"}]},
-  {id:"NL",name:"NETHERLANDS",lat:54.4074,lon:-23.9278,
-   workshops:[{url:"https://www.feldenkrais.nl/agenda/kalender"}],
-   events:[{url:"https://www.feldenkrais.nl/actueel"}]},
-  {id:"NZ",name:"NEW ZEALAND",lat:-68.282,lon:144.1287,
-   workshops:[{url:"https://www.feldenkrais.org.nz/about/events/"}],
-   events:[{url:"https://www.feldenkrais.org.nz"}]},
-  {id:"NO",name:"NORWAY",lat:63.9139,lon:-21.2478,
-   workshops:[{url:"https://feldenkraismetoden.no/kalender/"}],
-   events:[{url:"https://feldenkraismetoden.no/"}]},
-  {id:"RU",name:"RUSSIA",lat:57.7558,lon:1.6173,workshops:[],events:[{url:"https://feldenkraisguild-russia.com/"}]},
-  {id:"SI",name:"SLOVENIJA",lat:46.0569,lon:-17.4942,workshops:[],events:[{url:"https://www.feldenkrais.si/"}]},
-  {id:"ES",name:"SPAIN",lat:38.4168,lon:-35.7038,
-   workshops:[{url:"https://www.asociacionfeldenkrais.es/actividades/"}],
-   events:[{url:"https://www.asociacionfeldenkrais.es/"}]},
-  {id:"SE",name:"SWEDEN",lat:61.9139,lon:-15.2478,
-   workshops:[{url:"https://www.feldenkraismetoden.org/lista-event-och-onlineklasser/"}],
-   events:[{url:"https://www.feldenkraismetoden.org/"}]},
-  {id:"CH",name:"SWITZERLAND",lat:46.5566,lon:-23.6478,
-   workshops:[{url:"https://www.feldenkrais.ch/fr/liste-veranstaltungen/"}],
-   events:[{url:"https://www.feldenkrais.ch/fr/426-2/"}]},
-  {id:"TW",name:"TAIWAN",lat:16.033,lon:97.5654,workshops:[],events:[{url:"https://www.feldenkrais-guild.tw/"}]},
-  {id:"UK",name:"UNITED KINGDOM",lat:53.5074,lon:-32.1278,workshops:[],events:[{url:"https://www.feldenkrais.co.uk/"}]},
-  {id:"US",name:"UNITED STATES",lat:45.5,lon:-150,workshops:[],events:[{url:"https://www.feldenkraisguild.com/"}]},{ id:"AUS", name:"AUSTRALASIA (AusTAB)", lat:-46.2820, lon:112.1287,
-  workshops:[],                                          
-  events:[{ url:"https://www.feldenkrais-austab.org" }]  
-  },
+  <script>
+    /* ---- data ---- */
+    const places = [
+      {
+        id: "AR", name: "ARGENTINA", lat: -60, lon: -91.3816,
+        workshops: [{ url: "https://feldenkrais.org.ar/de-la-asociacion/" }],
+        events: [{ url: "https://feldenkrais.org.ar/con-el-apoyo-de-la-asociacion/" }]
+      },
+      {
+        id: "AU", name: "AUSTRALIA", lat: -63.282, lon: 120.1287,
+        workshops: [{ url: "https://www.feldenkrais.org.au/classes" }],
+        events: [{ url: "https://www.feldenkrais.org.au/special-interest-groups" }]
+      },
+      {
+        id: "AT", name: "AUSTRIA", lat: 47.6569, lon: -14.6942,
+        workshops: [], events: [{ url: "https://www.feldenkrais.at/aktionstage" }]
+      },
+      {
+        id: "BE", name: "BELGIUM", lat: 50.8503, lon: -25.6483,
+        workshops: [{ url: "LightnessInLife.pdf" }],
+        events: [{ url: "https://www.feldenkraisbelgium.be/fr/agenda-0" }],
+        extra: []   // <-- add this
+      },
+      { id: "CA", name: "CANADA", lat: 48.8139, lon: -99.208, workshops: [], events: [{ url: "https://feldenkraisqc-ca.translate.goog/?page_id=127&_x_tr_sl=fr&_x_tr_tl=en&_x_tr_hl=en&_x_tr_pto=sc" }] },
+      {
+        id: "CL", name: "CHILE", lat: -58, lon: -105.3816,
+        workshops: [], events: [{ url: "https://achifeldenkrais.wordpress.com/boletin-de-la-asociacion/" }]
+      },
+      {
+        id: "CO", name: "COLOMBIA", lat: -7, lon: -114.3816,
+        workshops: [{ url: "https://www.feldenkraislatino.com/eventos/" }],
+        events: [{ url: "https://www.feldenkraislatino.com" }]
+      },
+      {
+        id: "CZ", name: "CZECH REPUBLIC", lat: 50.948, lon: -16.5526,
+        workshops: [{ url: "https://spolek-feldenkrais.cz/aktuality/" }],
+        events: [{ url: "https://spolek-feldenkrais.cz/vycviky-kurzy/" }]
+      },
+      { id: "FI", name: "FINLAND", lat: 63.9139, lon: -8.0616, workshops: [], events: [{ url: "https://www.feldenkrais.fi/" }] },
+      {
+        id: "FR", name: "FRANCE", lat: 47.8566, lon: -28.6478,
+        workshops: [{ url: "https://www.feldenkrais-france.org/evenements/jff" }],
+        events: [
+          { url: "https://www.feldenkrais-france.org/post/les-stages-de-septembre-2025-methode-feldenkrais-partout-en-france" },
+          { url: "https://www.feldenkrais-france.org/blog/categories/%C3%A9v%C3%A9nements" }
+        ]
+      },
+      {
+        id: "DE", name: "GERMANY", lat: 53.448, lon: -19.0526,
+        workshops: [], events: [{ url: "https://www.feldenkrais.de/termine/termine-suchen" }]
+      },
+      { id: "HK", name: "HONG KONG / CHINA", lat: 15.033, lon: 91, workshops: [], events: [{ url: "https://www.feldenkrais.com.hk/" }] },
+      { id: "IL", name: "ISRAEL", lat: 28.7683, lon: 5.2137, workshops: [], events: [{ url: "http://www.feldenkrais-israel.org/" }] },
+      { id: "IT", name: "ITALY", lat: 39.9028, lon: -17.5036, workshops: [], events: [{ url: "https://feldenkrais.it/" }] },
+      { id: "MX", name: "MEXICO", lat: 12.4326, lon: -141.1332, workshops: [], events: [{ url: "https://www.feldenkraismexico.org/" }] },
+      {
+        id: "NL", name: "NETHERLANDS", lat: 54.4074, lon: -23.9278,
+        workshops: [{ url: "https://www.feldenkrais.nl/agenda/kalender" }],
+        events: [{ url: "https://www.feldenkrais.nl/actueel" }]
+      },
+      {
+        id: "NZ", name: "NEW ZEALAND", lat: -68.282, lon: 144.1287,
+        workshops: [{ url: "https://www.feldenkrais.org.nz/about/events/" }],
+        events: [{ url: "https://www.feldenkrais.org.nz" }]
+      },
+      {
+        id: "NO", name: "NORWAY", lat: 63.9139, lon: -21.2478,
+        workshops: [{ url: "https://feldenkraismetoden.no/kalender/" }],
+        events: [{ url: "https://feldenkraismetoden.no/" }]
+      },
+      { id: "RU", name: "RUSSIA", lat: 57.7558, lon: 1.6173, workshops: [], events: [{ url: "https://feldenkraisguild-russia.com/" }] },
+      { id: "SI", name: "SLOVENIJA", lat: 46.0569, lon: -17.4942, workshops: [], events: [{ url: "https://www.feldenkrais.si/" }] },
+      {
+        id: "ES", name: "SPAIN", lat: 38.4168, lon: -35.7038,
+        workshops: [{ url: "https://www.asociacionfeldenkrais.es/actividades/" }],
+        events: [{ url: "https://www.asociacionfeldenkrais.es/" }]
+      },
+      {
+        id: "SE", name: "SWEDEN", lat: 61.9139, lon: -15.2478,
+        workshops: [{ url: "https://www.feldenkraismetoden.org/lista-event-och-onlineklasser/" }],
+        events: [{ url: "https://www.feldenkraismetoden.org/" }]
+      },
+      {
+        id: "CH", name: "SWITZERLAND", lat: 46.5566, lon: -23.6478,
+        workshops: [{ url: "https://www.feldenkrais.ch/fr/liste-veranstaltungen/" }],
+        events: [{ url: "https://www.feldenkrais.ch/fr/426-2/" }]
+      },
+      { id: "TW", name: "TAIWAN", lat: 16.033, lon: 97.5654, workshops: [], events: [{ url: "https://www.feldenkrais-guild.tw/" }] },
+      { id: "UK", name: "UNITED KINGDOM", lat: 53.5074, lon: -32.1278, workshops: [], events: [{ url: "https://www.feldenkrais.co.uk/" }] },
+      { id: "US", name: "UNITED STATES", lat: 45.5, lon: -150, workshops: [], events: [{ url: "https://www.feldenkraisguild.com/" }] }, {
+        id: "AUS", name: "AUSTRALASIA (AusTAB)", lat: -46.2820, lon: 112.1287,
+        workshops: [],
+        events: [{ url: "https://www.feldenkrais-austab.org" }]
+      },
 
-  { id:"EUR", name:"EUROPE (EuroTAB)", lat:43.8566, lon:-30.6478,
-    workshops:[{ url:"https://www.eurotab.org/index.php?dir=site&page=programs&op=category&cs=3" }], 
-    events:[{ url:"https://www.eurotab.org/" }]                                                        
-  },
+      {
+        id: "EUR", name: "EUROPE (EuroTAB)", lat: 43.8566, lon: -30.6478,
+        workshops: [{ url: "https://www.eurotab.org/index.php?dir=site&page=programs&op=category&cs=3" }],
+        events: [{ url: "https://www.eurotab.org/" }]
+      },
 
-  { id:"NAM", name:"THE AMERICAS (NATAB)", lat:36.5000, lon:-135.3500,
-    workshops:[], 
-    events:[{ url:"https://www.feldenkraisguild.com/page/north-american-training-accreditation-board" }]
-  },
+      {
+        id: "NAM", name: "THE AMERICAS (NATAB)", lat: 36.5000, lon: -135.3500,
+        workshops: [],
+        events: [{ url: "https://www.feldenkraisguild.com/page/north-american-training-accreditation-board" }]
+      },
 
-  { id:"DTAB", name:"GERMANY (DTAB)", lat:50.8503, lon:-21.6483,
-    workshops:[],                                           
-    events:[{ url:"https://www.feldenkrais.de/" }]          
-  }
-  
-];
+      {
+        id: "DTAB", name: "GERMANY (DTAB)", lat: 50.8503, lon: -21.6483,
+        workshops: [],
+        events: [{ url: "https://www.feldenkrais.de/" }]
+      }
 
-/* --- Auto-translate toggle --- */
-const EN_HOST_HINTS = ['.uk','.us','.au','.nz','.ie','.ca','.com','localhost','127.0.0.1'];
-const NON_EN_CC     = new Set(['fr','de','es','it','nl','cz','fi','no','se','ch','si','ru','tw','be','pt','pl','tr','gr','jp','kr','cn','hk','at','mx','ar','cl','co','il']);
+    ];
 
-function shouldTranslate(url){
-  if (!url || /^mailto:/i.test(url)) return false;
-  if (!/^https?:/i.test(url)) return false;        // local files (e.g. PDFs) untouched
-  try{
-    const u = new URL(url);
-    const cc = u.hostname.split('.').pop();
-    if (NON_EN_CC.has(cc)) return true;
-    if (EN_HOST_HINTS.some(s => u.hostname.endsWith(s))) return false;
-    return true;                                    // default: translate .org/.net/etc.
-  }catch{ return false; }
-}
-function wrapTranslate(url){
-  return `https://translate.google.com/translate?sl=auto&tl=en&u=${encodeURIComponent(url)}`;
-}
+    /* --- Auto-translate toggle --- */
+    const EN_HOST_HINTS = ['.uk', '.us', '.au', '.nz', '.ie', '.ca', '.com', 'localhost', '127.0.0.1'];
+    const NON_EN_CC = new Set(['fr', 'de', 'es', 'it', 'nl', 'cz', 'fi', 'no', 'se', 'ch', 'si', 'ru', 'tw', 'be', 'pt', 'pl', 'tr', 'gr', 'jp', 'kr', 'cn', 'hk', 'at', 'mx', 'ar', 'cl', 'co', 'il']);
 
-/* state + wiring */
-const autoToggle = (()=>document.getElementById('autoTranslate'))();
-(function initAuto(){
-  const saved = localStorage.getItem('autoTranslateEN') === '1';
-  autoToggle.checked = !!saved;                     // default OFF
-})();
-function translateIfEnabled(url){
-  if (!url) return url;
-  return autoToggle.checked && shouldTranslate(url) ? wrapTranslate(url) : url;
-}
-autoToggle.addEventListener('change', ()=>{
-  localStorage.setItem('autoTranslateEN', autoToggle.checked ? '1' : '0');
-  refreshPinAnchors();
-});
+    function shouldTranslate(url) {
+      if (!url || /^mailto:/i.test(url)) return false;
+      if (!/^https?:/i.test(url)) return false;        // local files (e.g. PDFs) untouched
+      try {
+        const u = new URL(url);
+        const cc = u.hostname.split('.').pop();
+        if (NON_EN_CC.has(cc)) return true;
+        if (EN_HOST_HINTS.some(s => u.hostname.endsWith(s))) return false;
+        return true;                                    // default: translate .org/.net/etc.
+      } catch { return false; }
+    }
+    function wrapTranslate(url) {
+      return `https://translate.google.com/translate?sl=auto&tl=en&u=${encodeURIComponent(url)}`;
+    }
 
-/* refresh pin anchors when toggle flips */
-function refreshPinAnchors(){
-  places.forEach(p=>{
-    const u = primaryUrl(p);
-    const a = document.querySelector(`.pin[data-id="${p.id}"] a`);
-    if (a) a.href = u ? translateIfEnabled(u) : '#';
-  });
-}
-
-/* ---- list (Belgium first + separator) ---- */
-const listEl = document.getElementById('list');
-(function renderList(){
-  const belgium = places.find(p => p.id === "BE");
-  if (belgium){
-    addPlaceItem(belgium);
-    const sep = document.createElement('div');
-    sep.className = 'sep';
-    listEl.appendChild(sep);
-  }
-  for (const p of places){
-    if (p.id === "BE") continue;
-    addPlaceItem(p);
-  }
-})();
-
-/* helpers */
-function firstUrl(arr){ return (arr && arr[0] && arr[0].url) ? arr[0].url : null; }
-function primaryUrl(p){ return firstUrl(p.workshops) || firstUrl(p.events); }
-
-let _popPrev = null;
-function showPopup(title, text){
-  const bd = document.getElementById('pop');
-  bd.querySelector('#pop-title').textContent = title || 'Notice';
-  bd.querySelector('#pop-text').textContent  = text  || '';
-  bd.classList.add('show');
-  bd.setAttribute('aria-hidden','false');
-  _popPrev = document.activeElement;
-  bd.querySelector('[data-pop-close]').focus();
-}
-function hidePopup(){
-  const bd = document.getElementById('pop');
-  bd.classList.remove('show');
-  bd.setAttribute('aria-hidden','true');
-  if (_popPrev) _popPrev.focus();
-}
-document.getElementById('pop').addEventListener('click', e=>{
-  if (e.target.id === 'pop' || e.target.hasAttribute('data-pop-close')) hidePopup();
-});
-addEventListener('keydown', e=>{ if (e.key === 'Escape') hidePopup(); });
-
-function noActivitiesAlert(){
-  showPopup('No activities found','Have something to add? Contact us.');
-}
-
-function attachPillHandlers(container){
-  container.querySelectorAll('.subbox').forEach(a=>{
-    a.addEventListener('click', (e)=>{
-      e.stopPropagation();
-      e.preventDefault();
-      const url = a.dataset.url || '';
-      if (url) openLink(translateIfEnabled(url));
-      else noActivitiesAlert();
+    /* state + wiring */
+    const autoToggle = (() => document.getElementById('autoTranslate'))();
+    (function initAuto() {
+      const saved = localStorage.getItem('autoTranslateEN') === '1';
+      autoToggle.checked = !!saved;                     // default OFF
+    })();
+    function translateIfEnabled(url) {
+      if (!url) return url;
+      return autoToggle.checked && shouldTranslate(url) ? wrapTranslate(url) : url;
+    }
+    autoToggle.addEventListener('change', () => {
+      localStorage.setItem('autoTranslateEN', autoToggle.checked ? '1' : '0');
+      refreshPinAnchors();
     });
-  });
-}
 
-function addPlaceItem(p){
-  const w = firstUrl(p.workshops);
-  const e = firstUrl(p.events);
+    /* refresh pin anchors when toggle flips */
+    function refreshPinAnchors() {
+      places.forEach(p => {
+        const u = primaryUrl(p);
+        const a = document.querySelector(`.pin[data-id="${p.id}"] a`);
+        if (a) a.href = u ? translateIfEnabled(u) : '#';
+      });
+    }
 
-  const el = document.createElement('button');
-  el.className = 'item'; el.dataset.id = p.id;
-  el.innerHTML = `
+    /* ---- list (Belgium first + separator) ---- */
+    const listEl = document.getElementById('list');
+    (function renderList() {
+      const belgium = places.find(p => p.id === "BE");
+      if (belgium) {
+        addPlaceItem(belgium);
+        const sep = document.createElement('div');
+        sep.className = 'sep';
+        listEl.appendChild(sep);
+      }
+      for (const p of places) {
+        if (p.id === "BE") continue;
+        addPlaceItem(p);
+      }
+    })();
+
+    /* helpers */
+    function firstUrl(arr) { return (arr && arr[0] && arr[0].url) ? arr[0].url : null; }
+    function primaryUrl(p) { return firstUrl(p.workshops) || firstUrl(p.events); }
+
+    let _popPrev = null;
+    function showPopup(title, text) {
+      const bd = document.getElementById('pop');
+      bd.querySelector('#pop-title').textContent = title || 'Notice';
+      bd.querySelector('#pop-text').textContent = text || '';
+      bd.classList.add('show');
+      bd.setAttribute('aria-hidden', 'false');
+      _popPrev = document.activeElement;
+      bd.querySelector('[data-pop-close]').focus();
+    }
+    function hidePopup() {
+      const bd = document.getElementById('pop');
+      bd.classList.remove('show');
+      bd.setAttribute('aria-hidden', 'true');
+      if (_popPrev) _popPrev.focus();
+    }
+    document.getElementById('pop').addEventListener('click', e => {
+      if (e.target.id === 'pop' || e.target.hasAttribute('data-pop-close')) hidePopup();
+    });
+    addEventListener('keydown', e => { if (e.key === 'Escape') hidePopup(); });
+
+    function noActivitiesAlert() {
+      showPopup('No activities found', 'Have something to add? Contact us.');
+    }
+
+    function attachPillHandlers(container) {
+      container.querySelectorAll('.subbox').forEach(a => {
+        a.addEventListener('click', (e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          const url = a.dataset.url || '';
+          if (url) openLink(translateIfEnabled(url));
+          else noActivitiesAlert();
+        });
+      });
+    }
+
+    function addPlaceItem(p) {
+      const w = firstUrl(p.workshops);
+      const e = firstUrl(p.events);
+
+      const el = document.createElement('button');
+      el.className = 'item'; el.dataset.id = p.id;
+      el.innerHTML = `
     <span class="dot"></span>
     <div class="content">
       <div class="country">${p.name}</div>
@@ -267,110 +306,111 @@ function addPlaceItem(p){
           : ``}
       </div>
     </div>`;
-  el.addEventListener('mouseenter', ()=> setActivePin(p.id,true));
-  el.addEventListener('mouseleave', ()=> setActivePin(p.id,false));
-  el.addEventListener('focus', ()=> setActivePin(p.id,true));
-  el.addEventListener('blur',  ()=> setActivePin(p.id,false));
-  el.addEventListener('click', ()=>{
-    const u = primaryUrl(p);
-    if (u) openLink(translateIfEnabled(u)); else noActivitiesAlert();
-  });
-  listEl.appendChild(el);
-  attachPillHandlers(el);
-}
-
-/* ---- theme toggle ---- */
-const root = document.documentElement;
-const btn = document.getElementById('themeToggle');
-(function initTheme(){
-  const saved = localStorage.getItem('theme');
-  setTheme(saved || 'light'); // default to light
-})();
-btn.addEventListener('click', () => {
-  setTheme(root.getAttribute('data-theme') === 'light' ? 'dark' : 'light');
-});
-function setTheme(mode){
-  root.classList.add('theming');
-  root.setAttribute('data-theme', mode);
-  localStorage.setItem('theme', mode);
-  btn.setAttribute('aria-pressed', String(mode === 'light'));
-  clearTimeout(window._themeTO);
-  window._themeTO = setTimeout(()=>root.classList.remove('theming'), 400);
-}
-
-/* ---- map + pins ---- */
-const mapWrap = document.getElementById('mapWrap');
-const img = document.getElementById('worldMap');
-
-function lonLatToImagePx(lon, lat, imgW, imgH){
-  return { x: (lon + 180) / 360 * imgW, y: (90 - lat) / 180 * imgH };
-}
-function ensurePins(){
-  for (const p of places){
-    if (!document.querySelector(`.pin[data-id="${p.id}"]`)){
-      const pin = document.createElement('div');
-      pin.className = 'pin';
-      pin.dataset.id = p.id;
-      pin.dataset.name = p.name;
-      pin.tabIndex = 0;
-
-      const a = document.createElement('a');
-      const u = primaryUrl(p);
-      a.href = u || '#';
-      a.target = u && /^mailto:/i.test(u) ? '_self' : '_blank';
-      a.rel = 'noopener';
-      pin.appendChild(a);
-
-      pin.addEventListener('focus', ()=> setActivePin(p.id,true));
-      pin.addEventListener('blur',  ()=> setActivePin(p.id,false));
-      pin.addEventListener('click', ()=>{
-      const u = primaryUrl(p);
-      a.href = u ? translateIfEnabled(u) : '#';
+      el.addEventListener('mouseenter', () => setActivePin(p.id, true));
+      el.addEventListener('mouseleave', () => setActivePin(p.id, false));
+      el.addEventListener('focus', () => setActivePin(p.id, true));
+      el.addEventListener('blur', () => setActivePin(p.id, false));
+      el.addEventListener('click', () => {
+        const u = primaryUrl(p);
+        if (u) openLink(translateIfEnabled(u)); else noActivitiesAlert();
       });
-
-      mapWrap.appendChild(pin);
+      listEl.appendChild(el);
+      attachPillHandlers(el);
     }
-  }
-}
-function layoutPins(){
-  if (!img.complete || !img.naturalWidth) return;
-  ensurePins();
 
-  const cw = img.clientWidth, ch = img.clientHeight;
-  const iw = img.naturalWidth, ih = img.naturalHeight;
-
-  const scale = Math.min(cw/iw, ch/ih);
-  const rw = iw * scale, rh = ih * scale;
-  const lbx = (cw - rw) / 2, lby = (ch - rh) / 2;
-
-  const imgRect  = img.getBoundingClientRect();
-  const wrapRect = mapWrap.getBoundingClientRect();
-  const offX = imgRect.left - wrapRect.left;
-  const offY = imgRect.top  - wrapRect.top;
-
-  for (const p of places){
-    const {x, y} = lonLatToImagePx(p.lon, p.lat, iw, ih);
-    const pin = document.querySelector(`.pin[data-id="${p.id}"]`);
-    if (pin){
-      pin.style.left = (offX + lbx + x * scale) + 'px';
-      pin.style.top  = (offY + lby + y * scale) + 'px';
+    /* ---- theme toggle ---- */
+    const root = document.documentElement;
+    const btn = document.getElementById('themeToggle');
+    (function initTheme() {
+      const saved = localStorage.getItem('theme');
+      setTheme(saved || 'light'); // default to light
+    })();
+    btn.addEventListener('click', () => {
+      setTheme(root.getAttribute('data-theme') === 'light' ? 'dark' : 'light');
+    });
+    function setTheme(mode) {
+      root.classList.add('theming');
+      root.setAttribute('data-theme', mode);
+      localStorage.setItem('theme', mode);
+      btn.setAttribute('aria-pressed', String(mode === 'light'));
+      clearTimeout(window._themeTO);
+      window._themeTO = setTimeout(() => root.classList.remove('theming'), 400);
     }
-  }
-}
-function setActivePin(id, on){
-  const pin = document.querySelector(`.pin[data-id="${id}"]`);
-  if (pin) pin.classList.toggle('active', !!on);
-}
-function openLink(url){
-  if (!url) return;
-  if (/^mailto:/i.test(url)) window.location.href = url;
-  else window.open(url, '_blank', 'noopener');
-}
 
-if (img.complete) layoutPins(); else img.addEventListener('load', layoutPins);
-new ResizeObserver(layoutPins).observe(mapWrap);
-addEventListener('orientationchange', layoutPins);
-addEventListener('resize', layoutPins);
-</script>
+    /* ---- map + pins ---- */
+    const mapWrap = document.getElementById('mapWrap');
+    const img = document.getElementById('worldMap');
+
+    function lonLatToImagePx(lon, lat, imgW, imgH) {
+      return { x: (lon + 180) / 360 * imgW, y: (90 - lat) / 180 * imgH };
+    }
+    function ensurePins() {
+      for (const p of places) {
+        if (!document.querySelector(`.pin[data-id="${p.id}"]`)) {
+          const pin = document.createElement('div');
+          pin.className = 'pin';
+          pin.dataset.id = p.id;
+          pin.dataset.name = p.name;
+          pin.tabIndex = 0;
+
+          const a = document.createElement('a');
+          const u = primaryUrl(p);
+          a.href = u || '#';
+          a.target = u && /^mailto:/i.test(u) ? '_self' : '_blank';
+          a.rel = 'noopener';
+          pin.appendChild(a);
+
+          pin.addEventListener('focus', () => setActivePin(p.id, true));
+          pin.addEventListener('blur', () => setActivePin(p.id, false));
+          pin.addEventListener('click', () => {
+            const u = primaryUrl(p);
+            a.href = u ? translateIfEnabled(u) : '#';
+          });
+
+          mapWrap.appendChild(pin);
+        }
+      }
+    }
+    function layoutPins() {
+      if (!img.complete || !img.naturalWidth) return;
+      ensurePins();
+
+      const cw = img.clientWidth, ch = img.clientHeight;
+      const iw = img.naturalWidth, ih = img.naturalHeight;
+
+      const scale = Math.min(cw / iw, ch / ih);
+      const rw = iw * scale, rh = ih * scale;
+      const lbx = (cw - rw) / 2, lby = (ch - rh) / 2;
+
+      const imgRect = img.getBoundingClientRect();
+      const wrapRect = mapWrap.getBoundingClientRect();
+      const offX = imgRect.left - wrapRect.left;
+      const offY = imgRect.top - wrapRect.top;
+
+      for (const p of places) {
+        const { x, y } = lonLatToImagePx(p.lon, p.lat, iw, ih);
+        const pin = document.querySelector(`.pin[data-id="${p.id}"]`);
+        if (pin) {
+          pin.style.left = (offX + lbx + x * scale) + 'px';
+          pin.style.top = (offY + lby + y * scale) + 'px';
+        }
+      }
+    }
+    function setActivePin(id, on) {
+      const pin = document.querySelector(`.pin[data-id="${id}"]`);
+      if (pin) pin.classList.toggle('active', !!on);
+    }
+    function openLink(url) {
+      if (!url) return;
+      if (/^mailto:/i.test(url)) window.location.href = url;
+      else window.open(url, '_blank', 'noopener');
+    }
+
+    if (img.complete) layoutPins(); else img.addEventListener('load', layoutPins);
+    new ResizeObserver(layoutPins).observe(mapWrap);
+    addEventListener('orientationchange', layoutPins);
+    addEventListener('resize', layoutPins);
+  </script>
 </body>
+
 </html>
