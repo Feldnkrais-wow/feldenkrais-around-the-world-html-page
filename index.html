@@ -162,7 +162,18 @@
       },
       { id: "TW", name: "TAIWAN", lat: 16.033, lon: 97.5654, workshops: [], events: [{ url: "https://www.feldenkrais-guild.tw/" }] },
       { id: "UK", name: "UNITED KINGDOM", lat: 53.5074, lon: -32.1278, workshops: [], events: [{ url: "https://www.feldenkrais.co.uk/" }] },
-      { id: "US", name: "UNITED STATES", lat: 45.5, lon: -150, workshops: [], events: [{ url: "https://www.feldenkraisguild.com/" }] }, {
+      {
+        id: "US",
+        name: "UNITED STATES",
+        lat: 45.5,
+        lon: -150,
+        workshops: [],
+        events: [{ url: "https://www.feldenkraisguild.com/" }],
+        extra: [
+          { label: "Santa fe", url: "https://feldenkraisinsantafe.com/" }
+        ]
+      },
+      {
         id: "AUS", name: "AUSTRALASIA (AusTAB)", lat: -46.2820, lon: 112.1287,
         workshops: [],
         events: [{ url: "https://www.feldenkrais-austab.org" }]
@@ -186,6 +197,16 @@
         events: [{ url: "https://www.feldenkrais.de/" }]
       }
 
+    ];
+
+    const extraPins = [
+      {
+        id: "SANTAFE",
+        name: "SANTA FE (USA)",
+        lat: 31.6870,
+        lon: -142.9378,
+        url: "https://feldenkraisinsantafe.com/"
+      }
     ];
 
     /* --- Auto-translate toggle --- */
@@ -293,19 +314,25 @@
       const e = firstUrl(p.events);
 
       const el = document.createElement('button');
-      el.className = 'item'; el.dataset.id = p.id;
+      el.className = 'item';
+      el.dataset.id = p.id;
       el.innerHTML = `
-    <span class="dot"></span>
-    <div class="content">
-      <div class="country">${p.name}</div>
-      <div class="pills">
-        <a class="subbox" href="#" data-url="${w ? w : ''}">Workshops</a>
-        <a class="subbox" href="#" data-url="${e ? e : ''}">Other events</a>
-        ${p.extra && p.extra[0]
-          ? `<a class="subbox" href="#" data-url="${p.extra[0].url}">${p.extra[0].label}</a>`
-          : ``}
-      </div>
-    </div>`;
+        <span class="dot"></span>
+        <div class="content">
+          <div class="country">${p.name}</div>
+          <div class="pills">
+            <a class="subbox" href="#" data-url="${w ? w : ''}">Workshops</a>
+            <a class="subbox" href="#" data-url="${e ? e : ''}">Other events</a>
+            ${
+              p.extra && p.extra[0]
+                ? `<a class="subbox" href="#" data-url="${p.extra[0].url}">${p.extra[0].label}</a>`
+                : (p.id === "AUS"
+                    ? `<a class="subbox placeholder" href="#" data-url=""></a>`
+                    : ``)
+            }
+          </div>
+        </div>`;
+
       el.addEventListener('mouseenter', () => setActivePin(p.id, true));
       el.addEventListener('mouseleave', () => setActivePin(p.id, false));
       el.addEventListener('focus', () => setActivePin(p.id, true));
@@ -318,25 +345,6 @@
       attachPillHandlers(el);
     }
 
-    /* ---- theme toggle ---- */
-    const root = document.documentElement;
-    const btn = document.getElementById('themeToggle');
-    (function initTheme() {
-      const saved = localStorage.getItem('theme');
-      setTheme(saved || 'light'); // default to light
-    })();
-    btn.addEventListener('click', () => {
-      setTheme(root.getAttribute('data-theme') === 'light' ? 'dark' : 'light');
-    });
-    function setTheme(mode) {
-      root.classList.add('theming');
-      root.setAttribute('data-theme', mode);
-      localStorage.setItem('theme', mode);
-      btn.setAttribute('aria-pressed', String(mode === 'light'));
-      clearTimeout(window._themeTO);
-      window._themeTO = setTimeout(() => root.classList.remove('theming'), 400);
-    }
-
     /* ---- map + pins ---- */
     const mapWrap = document.getElementById('mapWrap');
     const img = document.getElementById('worldMap');
@@ -345,7 +353,7 @@
       return { x: (lon + 180) / 360 * imgW, y: (90 - lat) / 180 * imgH };
     }
     function ensurePins() {
-      for (const p of places) {
+      function makePin(p, isOrphan) {
         if (!document.querySelector(`.pin[data-id="${p.id}"]`)) {
           const pin = document.createElement('div');
           pin.className = 'pin';
@@ -354,7 +362,7 @@
           pin.tabIndex = 0;
 
           const a = document.createElement('a');
-          const u = primaryUrl(p);
+          const u = isOrphan ? p.url : primaryUrl(p);
           a.href = u || '#';
           a.target = u && /^mailto:/i.test(u) ? '_self' : '_blank';
           a.rel = 'noopener';
@@ -363,13 +371,18 @@
           pin.addEventListener('focus', () => setActivePin(p.id, true));
           pin.addEventListener('blur', () => setActivePin(p.id, false));
           pin.addEventListener('click', () => {
-            const u = primaryUrl(p);
-            a.href = u ? translateIfEnabled(u) : '#';
+            const url = isOrphan ? p.url : primaryUrl(p);
+            a.href = url ? translateIfEnabled(url) : '#';
           });
 
           mapWrap.appendChild(pin);
         }
       }
+
+      // normal pins from places
+      places.forEach(p => makePin(p, false));
+      // orphan pins (no side-panel entry)
+      extraPins.forEach(p => makePin(p, true));
     }
     function layoutPins() {
       if (!img.complete || !img.naturalWidth) return;
@@ -387,7 +400,7 @@
       const offX = imgRect.left - wrapRect.left;
       const offY = imgRect.top - wrapRect.top;
 
-      for (const p of places) {
+      for (const p of places.concat(extraPins)) {
         const { x, y } = lonLatToImagePx(p.lon, p.lat, iw, ih);
         const pin = document.querySelector(`.pin[data-id="${p.id}"]`);
         if (pin) {

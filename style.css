@@ -277,3 +277,8 @@ html[data-theme="light"] .pop-btn{ background:#f7f8fa; color:#000 }
 }
 html[data-theme="light"] .switch .slider{ background:#f1f3f7; }
 html[data-theme="light"] .switch-label{ color:#555; }
+
+.subbox.placeholder {
+  visibility: hidden;
+  pointer-events: none;
+}
